@@ -31,6 +31,7 @@ class ConnectivityService {
 
   Future<void> start() async {
     try {
+      final results = await _connectivity.checkConnectivity();
       _subscription = _connectivity.onConnectivityChanged.listen(
         _onChanged,
         onError: (Object _) {
@@ -38,7 +39,7 @@ class ConnectivityService {
           // fall through to checkConnectivity below, which ends in online.
         },
       );
-      _onChanged(await _connectivity.checkConnectivity());
+      _onChanged(results);
     } catch (_) {
       // No connectivity plugin available (tests, unsupported platform):
       // assume online so the app behaves as local-capable.
