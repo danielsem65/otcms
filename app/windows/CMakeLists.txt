@@ -52,11 +52,6 @@ add_subdirectory(${FLUTTER_MANAGED_DIR})
 # Application build; see runner/CMakeLists.txt.
 add_subdirectory("runner")
 
-{{#withPlatformChannelPluginHook}}
-# Enable the test target.
-set(include_{{pluginProjectName}}_tests TRUE)
-{{/withPlatformChannelPluginHook}}
-
 # Generated plugin build rules, which manage building the plugins and adding
 # them to the application.
 include(flutter/generated_plugins.cmake)
