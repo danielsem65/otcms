@@ -395,10 +395,7 @@ class _ProductEditorScreenState extends ConsumerState<ProductEditorScreen> {
     return category.id;
   }
 
-  static int _intOr(String text, int fallback) {
-    final value = int.tryParse(text.trim());
-    return value == null ? fallback : value;
-  }
+  static int _intOr(String text, int fallback) => int.tryParse(text.trim()) ?? fallback;
 
   static String? _emptyToNull(String text) {
     final trimmed = text.trim();
