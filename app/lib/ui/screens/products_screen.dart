@@ -139,7 +139,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           builder: (_) => ProductEditorScreen(product: product),
         ))
         .then((saved) {
-      if (!mounted) return;
+      if (!context.mounted) return;
       if (saved != null) {
         ref.invalidate(_productsProvider(_query));
         ScaffoldMessenger.of(context).showSnackBar(
