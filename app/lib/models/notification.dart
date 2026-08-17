@@ -41,6 +41,19 @@ class AppNotification {
     this.createdAt,
   });
 
+  factory AppNotification.fromJson(Map<String, dynamic> json) => AppNotification(
+        id: json['id'] as String,
+        organizationId: json['organizationId'] as String?,
+        branchId: json['branchId'] as String?,
+        type: NotificationType.fromDb(json['type'] as String),
+        severity: NotificationSeverity.fromDb(json['severity'] as String? ?? 'INFO'),
+        title: json['title'] as String,
+        body: json['body'] as String?,
+        data: (json['data'] as Map<String, dynamic>?)?.cast<String, dynamic>(),
+        read: (json['read'] as bool?) ?? false,
+        createdAt: _parseUtc(json['createdAt']),
+      );
+
   final String id;
   final String? organizationId;
   final String? branchId;
@@ -74,19 +87,6 @@ class AppNotification {
         data: data,
         read: true,
         createdAt: createdAt,
-      );
-
-  factory AppNotification.fromJson(Map<String, dynamic> json) => AppNotification(
-        id: json['id'] as String,
-        organizationId: json['organizationId'] as String?,
-        branchId: json['branchId'] as String?,
-        type: NotificationType.fromDb(json['type'] as String),
-        severity: NotificationSeverity.fromDb(json['severity'] as String? ?? 'INFO'),
-        title: json['title'] as String,
-        body: json['body'] as String?,
-        data: (json['data'] as Map<String, dynamic>?)?.cast<String, dynamic>(),
-        read: (json['read'] as bool?) ?? false,
-        createdAt: _parseUtc(json['createdAt']),
       );
 
   Map<String, dynamic> toJson() => {

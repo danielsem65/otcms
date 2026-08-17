@@ -26,6 +26,32 @@ class Product {
     this.updatedAt,
   });
 
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+        id: json['id'] as String,
+        organizationId: json['organizationId'] as String?,
+        branchId: json['branchId'] as String?,
+        name: json['name'] as String,
+        genericName: json['genericName'] as String?,
+        brandName: json['brandName'] as String?,
+        categoryId: json['categoryId'] as String?,
+        dosageForm: json['dosageForm'] as String?,
+        strength: json['strength'] as String?,
+        packSize: json['packSize'] as String?,
+        barcode: json['barcode'] as String?,
+        sku: json['sku'] as String?,
+        manufacturer: json['manufacturer'] as String?,
+        responsible: json['responsible'] as String?,
+        sellingPricePesewas: json['sellingPricePesewas'] as int,
+        costPricePesewas: json['costPricePesewas'] as int?,
+        reorderLevel: (json['reorderLevel'] as int?) ?? 10,
+        minimumStock: (json['minimumStock'] as int?) ?? 5,
+        targetStock: (json['targetStock'] as int?) ?? 50,
+        reorderQuantity: (json['reorderQuantity'] as int?) ?? 20,
+        active: (json['active'] as bool?) ?? true,
+        createdAt: _parseUtc(json['createdAt']),
+        updatedAt: _parseUtc(json['updatedAt']),
+      );
+
   final String id;
   final String? organizationId;
   final String? branchId;
@@ -97,32 +123,6 @@ class Product {
         updatedAt: updatedAt ?? DateTime.now().toUtc(),
       );
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json['id'] as String,
-        organizationId: json['organizationId'] as String?,
-        branchId: json['branchId'] as String?,
-        name: json['name'] as String,
-        genericName: json['genericName'] as String?,
-        brandName: json['brandName'] as String?,
-        categoryId: json['categoryId'] as String?,
-        dosageForm: json['dosageForm'] as String?,
-        strength: json['strength'] as String?,
-        packSize: json['packSize'] as String?,
-        barcode: json['barcode'] as String?,
-        sku: json['sku'] as String?,
-        manufacturer: json['manufacturer'] as String?,
-        responsible: json['responsible'] as String?,
-        sellingPricePesewas: json['sellingPricePesewas'] as int,
-        costPricePesewas: json['costPricePesewas'] as int?,
-        reorderLevel: (json['reorderLevel'] as int?) ?? 10,
-        minimumStock: (json['minimumStock'] as int?) ?? 5,
-        targetStock: (json['targetStock'] as int?) ?? 50,
-        reorderQuantity: (json['reorderQuantity'] as int?) ?? 20,
-        active: (json['active'] as bool?) ?? true,
-        createdAt: _parseUtc(json['createdAt']),
-        updatedAt: _parseUtc(json['updatedAt']),
-      );
-
   Map<String, dynamic> toJson() => {
         'id': id,
         'organizationId': organizationId,
@@ -175,13 +175,6 @@ class Category {
     this.updatedAt,
   });
 
-  final String id;
-  final String? organizationId;
-  final String name;
-  final String? description;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json['id'] as String,
         organizationId: json['organizationId'] as String?,
@@ -190,6 +183,13 @@ class Category {
         createdAt: _parseUtc(json['createdAt']),
         updatedAt: _parseUtc(json['updatedAt']),
       );
+
+  final String id;
+  final String? organizationId;
+  final String name;
+  final String? description;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Map<String, dynamic> toJson() => {
         'id': id,

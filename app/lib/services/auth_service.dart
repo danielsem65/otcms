@@ -26,7 +26,7 @@ class AuthService {
   }
 
   Future<UserProfile> _createLocalAdministrator() async {
-    final profile = const UserProfile(
+    const profile = UserProfile(
       id: 'user_local_admin',
       authUserId: 'local',
       displayName: 'Administrator',
@@ -52,6 +52,9 @@ class AuthService {
       password: password ?? '',
     );
     final user = res.user;
+    if (user == null) {
+      throw Exception('Sign-in failed: no user session returned.');
+    }
 
     // Mirror the authenticated profile locally so offline operation works.
     final existing = await _store.getUserByAuthId(user.id);

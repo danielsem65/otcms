@@ -15,6 +15,27 @@ class PharmacySettings {
     this.notifyBeforeDays = const [7, 30, 60, 90],
   });
 
+  factory PharmacySettings.fromJson(Map<String, dynamic> json) => PharmacySettings(
+        pharmacyName: json['pharmacyName'] as String? ?? 'Agya Appiah OTCMS',
+        address: json['address'] as String? ?? '',
+        phone: json['phone'] as String? ?? '',
+        email: json['email'] as String? ?? '',
+        currencyCode: json['currencyCode'] as String? ?? 'GHS',
+        currencySymbol: json['currencySymbol'] as String? ?? '₵',
+        timezone: json['timezone'] as String? ?? 'Africa/Accra',
+        expiryWarningDays: (json['expiryWarningDays'] as List<dynamic>?)
+                ?.map((e) => e as int)
+                .toList() ??
+            const [7, 30, 60, 90, 180],
+        lowStockDaysBack: (json['lowStockDaysBack'] as int?) ?? 14,
+        autoBackupDays: (json['autoBackupDays'] as int?) ?? 7,
+        dataDirectory: json['dataDirectory'] as String? ?? '',
+        notifyBeforeDays: (json['notifyBeforeDays'] as List<dynamic>?)
+                ?.map((e) => e as int)
+                .toList() ??
+            const [7, 30, 60, 90],
+      );
+
   final String pharmacyName;
   final String address;
   final String phone;
@@ -67,27 +88,6 @@ class PharmacySettings {
         notifyBeforeDays: notifyBeforeDays ?? this.notifyBeforeDays,
       );
 
-  factory PharmacySettings.fromJson(Map<String, dynamic> json) => PharmacySettings(
-        pharmacyName: json['pharmacyName'] as String? ?? 'Agya Appiah OTCMS',
-        address: json['address'] as String? ?? '',
-        phone: json['phone'] as String? ?? '',
-        email: json['email'] as String? ?? '',
-        currencyCode: json['currencyCode'] as String? ?? 'GHS',
-        currencySymbol: json['currencySymbol'] as String? ?? '₵',
-        timezone: json['timezone'] as String? ?? 'Africa/Accra',
-        expiryWarningDays: (json['expiryWarningDays'] as List<dynamic>?)
-                ?.map((e) => e as int)
-                .toList() ??
-            const [7, 30, 60, 90, 180],
-        lowStockDaysBack: (json['lowStockDaysBack'] as int?) ?? 14,
-        autoBackupDays: (json['autoBackupDays'] as int?) ?? 7,
-        dataDirectory: json['dataDirectory'] as String? ?? '',
-        notifyBeforeDays: (json['notifyBeforeDays'] as List<dynamic>?)
-                ?.map((e) => e as int)
-                .toList() ??
-            const [7, 30, 60, 90],
-      );
-
   Map<String, dynamic> toJson() => {
         'pharmacyName': pharmacyName,
         'address': address,
@@ -118,6 +118,18 @@ class PharmacyProfile {
     this.updatedAt,
   });
 
+  factory PharmacyProfile.fromJson(Map<String, dynamic> json) => PharmacyProfile(
+        id: json['id'] as String,
+        organizationId: json['organizationId'] as String?,
+        name: json['name'] as String,
+        address: json['address'] as String?,
+        phone: json['phone'] as String?,
+        email: json['email'] as String?,
+        logoPath: json['logoPath'] as String?,
+        createdAt: _parseUtc(json['createdAt']),
+        updatedAt: _parseUtc(json['updatedAt']),
+      );
+
   final String id;
   final String? organizationId;
   final String name;
@@ -145,18 +157,6 @@ class PharmacyProfile {
         logoPath: logoPath ?? this.logoPath,
         createdAt: createdAt,
         updatedAt: DateTime.now().toUtc(),
-      );
-
-  factory PharmacyProfile.fromJson(Map<String, dynamic> json) => PharmacyProfile(
-        id: json['id'] as String,
-        organizationId: json['organizationId'] as String?,
-        name: json['name'] as String,
-        address: json['address'] as String?,
-        phone: json['phone'] as String?,
-        email: json['email'] as String?,
-        logoPath: json['logoPath'] as String?,
-        createdAt: _parseUtc(json['createdAt']),
-        updatedAt: _parseUtc(json['updatedAt']),
       );
 
   Map<String, dynamic> toJson() => {

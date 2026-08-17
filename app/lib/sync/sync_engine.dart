@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import '../core/ids.dart';
-import '../core/result.dart';
 import '../data/local/local_store.dart';
 import '../data/remote/supabase_repo.dart';
 import '../models/audit.dart';
@@ -52,7 +51,7 @@ class SyncEngine {
 
   bool _running = false;
   Timer? _retryTimer;
-  bool _draining = false;
+  final _draining = false;
 
   /// Enqueues an operation for an entity already written to the local
   /// store. [entityType] values come from [EntityTypes].

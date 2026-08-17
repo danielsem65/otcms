@@ -106,7 +106,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           return ListView.separated(
             padding: const EdgeInsets.all(12),
             itemCount: products.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 8),
+            separatorBuilder: (_, i) => const SizedBox(height: 8),
             itemBuilder: (context, i) {
               final p = products[i];
               return Card(

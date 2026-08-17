@@ -20,6 +20,23 @@ class Batch {
     this.updatedAt,
   });
 
+  factory Batch.fromJson(Map<String, dynamic> json) => Batch(
+        id: json['id'] as String,
+        organizationId: json['organizationId'] as String?,
+        branchId: json['branchId'] as String?,
+        productId: json['productId'] as String,
+        batchNumber: json['batchNumber'] as String?,
+        expiryDate: _parseDate(json['expiryDate']),
+        manufactureDate: _parseDate(json['manufactureDate']),
+        quantity: (json['quantity'] as int?) ?? 0,
+        costPricePesewas: json['costPricePesewas'] as int?,
+        sellingPricePesewas: json['sellingPricePesewas'] as int?,
+        supplierId: json['supplierId'] as String?,
+        receivedAt: _parseUtc(json['receivedAt']),
+        createdAt: _parseUtc(json['createdAt']),
+        updatedAt: _parseUtc(json['updatedAt']),
+      );
+
   final String id;
   final String? organizationId;
   final String? branchId;
@@ -68,23 +85,6 @@ class Batch {
         receivedAt: receivedAt,
         createdAt: createdAt,
         updatedAt: updatedAt ?? DateTime.now().toUtc(),
-      );
-
-  factory Batch.fromJson(Map<String, dynamic> json) => Batch(
-        id: json['id'] as String,
-        organizationId: json['organizationId'] as String?,
-        branchId: json['branchId'] as String?,
-        productId: json['productId'] as String,
-        batchNumber: json['batchNumber'] as String?,
-        expiryDate: _parseDate(json['expiryDate']),
-        manufactureDate: _parseDate(json['manufactureDate']),
-        quantity: (json['quantity'] as int?) ?? 0,
-        costPricePesewas: json['costPricePesewas'] as int?,
-        sellingPricePesewas: json['sellingPricePesewas'] as int?,
-        supplierId: json['supplierId'] as String?,
-        receivedAt: _parseUtc(json['receivedAt']),
-        createdAt: _parseUtc(json['createdAt']),
-        updatedAt: _parseUtc(json['updatedAt']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -179,6 +179,22 @@ class StockMovement {
     this.syncStatus = SyncStatus.pending,
   });
 
+  factory StockMovement.fromJson(Map<String, dynamic> json) => StockMovement(
+        id: json['id'] as String,
+        operationId: json['operationId'] as String,
+        productId: json['productId'] as String,
+        batchId: json['batchId'] as String,
+        quantity: json['quantity'] as int,
+        movementType: MovementType.fromDb(json['movementType'] as String),
+        referenceId: json['referenceId'] as String?,
+        reason: json['reason'] as String?,
+        userId: json['userId'] as String?,
+        branchId: json['branchId'] as String?,
+        organizationId: json['organizationId'] as String?,
+        createdAt: _parseUtc(json['createdAt']),
+        syncStatus: SyncStatus.fromDb((json['syncStatus'] as String?) ?? 'PENDING'),
+      );
+
   final String id;
   final String operationId;
   final String productId;
@@ -196,22 +212,6 @@ class StockMovement {
   final SyncStatus syncStatus;
 
   int get direction => movementType.direction;
-
-  factory StockMovement.fromJson(Map<String, dynamic> json) => StockMovement(
-        id: json['id'] as String,
-        operationId: json['operationId'] as String,
-        productId: json['productId'] as String,
-        batchId: json['batchId'] as String,
-        quantity: json['quantity'] as int,
-        movementType: MovementType.fromDb(json['movementType'] as String),
-        referenceId: json['referenceId'] as String?,
-        reason: json['reason'] as String?,
-        userId: json['userId'] as String?,
-        branchId: json['branchId'] as String?,
-        organizationId: json['organizationId'] as String?,
-        createdAt: _parseUtc(json['createdAt']),
-        syncStatus: SyncStatus.fromDb((json['syncStatus'] as String?) ?? 'PENDING'),
-      );
 
   Map<String, dynamic> toJson() => {
         'id': id,

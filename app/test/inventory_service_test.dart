@@ -22,7 +22,7 @@ Batch batch(String id, int quantity, {DateTime? expiry, DateTime? receivedAt}) =
 
 void main() {
   final today = DateTime(2026, 8, 17);
-  final service = const InventoryService();
+  const service = InventoryService();
 
   group('InventoryService — sellable stock & FEFO', () {
     test('expired batches are excluded from sellable stock', () {

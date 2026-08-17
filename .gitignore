@@ -23,7 +23,7 @@ app/windows/flutter/ephemeral/
 app/windows/CMakeSettings.json
 
 # Local runtime data (never commit pharmacy data or local DBs)
-data/
+/data/
 *.db
 *.sqlite
 

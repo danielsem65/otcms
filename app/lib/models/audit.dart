@@ -13,6 +13,19 @@ class AuditLog {
     this.createdAt,
   });
 
+  factory AuditLog.fromJson(Map<String, dynamic> json) => AuditLog(
+        id: json['id'] as String,
+        organizationId: json['organizationId'] as String?,
+        userId: json['userId'] as String?,
+        deviceId: json['deviceId'] as String?,
+        action: json['action'] as String,
+        entity: json['entity'] as String?,
+        entityId: json['entityId'] as String?,
+        before: (json['before'] as Map<String, dynamic>?)?.cast<String, dynamic>(),
+        after: (json['after'] as Map<String, dynamic>?)?.cast<String, dynamic>(),
+        createdAt: _parseUtc(json['createdAt']),
+      );
+
   final String id;
   final String? organizationId;
   final String? userId;
@@ -37,19 +50,6 @@ class AuditLog {
   static const syncCompleted = 'SYNC_COMPLETED';
   static const syncFailed = 'SYNC_FAILED';
   static const expiryAlert = 'EXPIRY_ALERT';
-
-  factory AuditLog.fromJson(Map<String, dynamic> json) => AuditLog(
-        id: json['id'] as String,
-        organizationId: json['organizationId'] as String?,
-        userId: json['userId'] as String?,
-        deviceId: json['deviceId'] as String?,
-        action: json['action'] as String,
-        entity: json['entity'] as String?,
-        entityId: json['entityId'] as String?,
-        before: (json['before'] as Map<String, dynamic>?)?.cast<String, dynamic>(),
-        after: (json['after'] as Map<String, dynamic>?)?.cast<String, dynamic>(),
-        createdAt: _parseUtc(json['createdAt']),
-      );
 
   Map<String, dynamic> toJson() => {
         'id': id,

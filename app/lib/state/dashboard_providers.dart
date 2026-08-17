@@ -80,7 +80,7 @@ final dashboardProvider = FutureProvider<DashboardModel>((ref) async {
     byProduct.putIfAbsent(b.productId, () => []).add(b);
   }
 
-  final service = const InventoryService();
+  const service = InventoryService();
   var lowStock = 0;
   var outOfStock = 0;
   var inventoryValue = 0;

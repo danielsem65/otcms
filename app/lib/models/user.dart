@@ -61,6 +61,19 @@ class UserProfile {
     this.updatedAt,
   });
 
+  factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
+        id: json['id'] as String,
+        authUserId: json['authUserId'] as String?,
+        organizationId: json['organizationId'] as String?,
+        branchId: json['branchId'] as String?,
+        role: UserRole.fromDb(json['role'] as String?),
+        displayName: json['displayName'] as String,
+        phone: json['phone'] as String?,
+        active: (json['active'] as bool?) ?? true,
+        createdAt: _parseUtc(json['createdAt']),
+        updatedAt: _parseUtc(json['updatedAt']),
+      );
+
   final String id;
   final String? authUserId;
   final String? organizationId;
@@ -101,19 +114,6 @@ class UserProfile {
     UserRole.cashier: [Permissions.viewProducts, Permissions.createSale, Permissions.viewSales],
     UserRole.staff: [Permissions.viewProducts, Permissions.createSale],
   };
-
-  factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
-        id: json['id'] as String,
-        authUserId: json['authUserId'] as String?,
-        organizationId: json['organizationId'] as String?,
-        branchId: json['branchId'] as String?,
-        role: UserRole.fromDb(json['role'] as String?),
-        displayName: json['displayName'] as String,
-        phone: json['phone'] as String?,
-        active: (json['active'] as bool?) ?? true,
-        createdAt: _parseUtc(json['createdAt']),
-        updatedAt: _parseUtc(json['updatedAt']),
-      );
 
   Map<String, dynamic> toJson() => {
         'id': id,

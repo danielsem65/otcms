@@ -257,8 +257,9 @@ class DashboardScreen extends ConsumerWidget {
       ),
     );
   }
+}
 
-  // Helpers kept in this file to stay readable.
+// Helpers kept in this file to stay readable.
 Widget _alertRow(BuildContext context, int count, Color color, String label) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 6),

@@ -21,28 +21,21 @@ sealed class Result<T> {
 
 class Ok<T> extends Result<T> {
   const Ok(this.value);
+
+  @override
   final T value;
 }
 
 class Err<T> extends Result<T> {
   const Err(this.error);
+
+  @override
   final OtcmsError error;
 }
 
 /// Domain error with a stable, machine-readable code.
 class OtcmsError {
   const OtcmsError(this.code, this.message, {this.details});
-
-  /// Stable code, e.g. `product_inactive`, `insufficient_stock`,
-  /// `batch_expired`, `invoice_collision`, `network_offline`.
-  final String code;
-  final String message;
-  final Object? details;
-
-  bool get isNetworkError => code == 'network_offline' || code == 'network_timeout';
-
-  @override
-  String toString() => 'OtcmsError($code): $message';
 
   /// Common error constructors
   factory OtcmsError.network([String? message]) =>
@@ -59,6 +52,17 @@ class OtcmsError {
 
   factory OtcmsError.notFound(String entity) =>
       OtcmsError('not_found', '$entity not found.');
+
+  /// Stable code, e.g. `product_inactive`, `insufficient_stock`,
+  /// `batch_expired`, `invoice_collision`, `network_offline`.
+  final String code;
+  final String message;
+  final Object? details;
+
+  bool get isNetworkError => code == 'network_offline' || code == 'network_timeout';
+
+  @override
+  String toString() => 'OtcmsError($code): $message';
 }
 
 /// Convenience constructors used inside services.

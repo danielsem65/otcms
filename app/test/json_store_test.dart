@@ -27,7 +27,7 @@ void main() {
   group('JsonLocalStore', () {
     test('persists products across open/close (JSON read + write)', () async {
       final store = await openStore();
-      await store.putProduct(Product(
+      await store.putProduct(const Product(
         id: 'prod_001',
         name: '3FER SYRUP',
         responsible: 'Administrator',
@@ -45,7 +45,7 @@ void main() {
 
     test('products.json exists with structured schema', () async {
       final store = await openStore();
-      await store.putProduct(Product(
+      await store.putProduct(const Product(
         id: 'prod_001',
         name: 'X',
         sellingPricePesewas: 100,
@@ -70,12 +70,12 @@ void main() {
 
     test('exportAll / importAll round trip', () async {
       final store = await openStore();
-      await store.putProduct(Product(
+      await store.putProduct(const Product(
         id: 'prod_001',
         name: 'Paracetamol',
         sellingPricePesewas: 1000,
       ));
-      await store.putBatch(Batch(
+      await store.putBatch(const Batch(
         id: 'batch_001',
         productId: 'prod_001',
         quantity: 50,
@@ -101,9 +101,9 @@ void main() {
     test('search works by name, barcode and sku', () async {
       final store = await openStore();
       await store.putProducts([
-        Product(id: 'p1', name: 'Paracetamol 500mg', sellingPricePesewas: 1000, barcode: '1234'),
-        Product(id: 'p2', name: 'ORS', sellingPricePesewas: 500, sku: 'ORS-01'),
-        Product(id: 'p3', name: 'Vitamin C', sellingPricePesewas: 1500),
+        const Product(id: 'p1', name: 'Paracetamol 500mg', sellingPricePesewas: 1000, barcode: '1234'),
+        const Product(id: 'p2', name: 'ORS', sellingPricePesewas: 500, sku: 'ORS-01'),
+        const Product(id: 'p3', name: 'Vitamin C', sellingPricePesewas: 1500),
       ]);
       expect((await store.getProducts(search: 'PARA')).length, 1);
       expect((await store.getProducts(search: '1234')).length, 1);

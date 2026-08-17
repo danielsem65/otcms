@@ -15,6 +15,19 @@ class SyncOperation {
     this.payload = const {},
   });
 
+  factory SyncOperation.fromJson(Map<String, dynamic> json) => SyncOperation(
+        operationId: json['operationId'] as String,
+        deviceId: json['deviceId'] as String? ?? '',
+        entityType: json['entityType'] as String,
+        entityId: json['entityId'] as String,
+        operationType: json['operationType'] as String? ?? 'CREATE',
+        createdAt: DateTime.parse(json['createdAt'] as String).toUtc(),
+        status: SyncStatus.fromDb(json['status'] as String? ?? 'PENDING'),
+        retryCount: (json['retryCount'] as int?) ?? 0,
+        lastError: json['lastError'] as String?,
+        payload: (json['payload'] as Map<String, dynamic>? ?? {}).cast<String, dynamic>(),
+      );
+
   final String operationId;
   final String deviceId;
 
@@ -49,19 +62,6 @@ class SyncOperation {
         payload: payload,
       );
 
-  factory SyncOperation.fromJson(Map<String, dynamic> json) => SyncOperation(
-        operationId: json['operationId'] as String,
-        deviceId: json['deviceId'] as String? ?? '',
-        entityType: json['entityType'] as String,
-        entityId: json['entityId'] as String,
-        operationType: json['operationType'] as String? ?? 'CREATE',
-        createdAt: DateTime.parse(json['createdAt'] as String).toUtc(),
-        status: SyncStatus.fromDb(json['status'] as String? ?? 'PENDING'),
-        retryCount: (json['retryCount'] as int?) ?? 0,
-        lastError: json['lastError'] as String?,
-        payload: (json['payload'] as Map<String, dynamic>? ?? {}).cast<String, dynamic>(),
-      );
-
   Map<String, dynamic> toJson() => {
         'operationId': operationId,
         'deviceId': deviceId,
@@ -86,6 +86,14 @@ class SyncState {
     this.updatedAt,
   });
 
+  factory SyncState.fromJson(Map<String, dynamic> json) => SyncState(
+        deviceId: json['deviceId'] as String,
+        organizationId: json['organizationId'] as String?,
+        lastPushedAt: _parseUtc(json['lastPushedAt']),
+        lastPulledAt: _parseUtc(json['lastPulledAt']),
+        updatedAt: _parseUtc(json['updatedAt']),
+      );
+
   final String deviceId;
   final String? organizationId;
   final DateTime? lastPushedAt;
@@ -103,14 +111,6 @@ class SyncState {
         lastPushedAt: lastPushedAt ?? this.lastPushedAt,
         lastPulledAt: lastPulledAt ?? this.lastPulledAt,
         updatedAt: updatedAt ?? DateTime.now().toUtc(),
-      );
-
-  factory SyncState.fromJson(Map<String, dynamic> json) => SyncState(
-        deviceId: json['deviceId'] as String,
-        organizationId: json['organizationId'] as String?,
-        lastPushedAt: _parseUtc(json['lastPushedAt']),
-        lastPulledAt: _parseUtc(json['lastPulledAt']),
-        updatedAt: _parseUtc(json['updatedAt']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -140,17 +140,6 @@ class SyncConflict {
     this.resolvedAt,
   });
 
-  final String id;
-  final String? organizationId;
-  final String? operationId;
-  final String? entityType;
-  final String? entityId;
-  final String reason;
-  final Map<String, dynamic>? payload;
-  final ConflictStatus status;
-  final DateTime? createdAt;
-  final DateTime? resolvedAt;
-
   factory SyncConflict.fromJson(Map<String, dynamic> json) => SyncConflict(
         id: json['id'] as String,
         organizationId: json['organizationId'] as String?,
@@ -163,6 +152,17 @@ class SyncConflict {
         createdAt: _parseUtc(json['createdAt']),
         resolvedAt: _parseUtc(json['resolvedAt']),
       );
+
+  final String id;
+  final String? organizationId;
+  final String? operationId;
+  final String? entityType;
+  final String? entityId;
+  final String reason;
+  final Map<String, dynamic>? payload;
+  final ConflictStatus status;
+  final DateTime? createdAt;
+  final DateTime? resolvedAt;
 
   Map<String, dynamic> toJson() => {
         'id': id,

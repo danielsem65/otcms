@@ -31,21 +31,6 @@ class Purchase {
     this.syncStatus = SyncStatus.pending,
   });
 
-  final String id;
-  final String operationId;
-  final String? organizationId;
-  final String? branchId;
-  final String? supplierId;
-  final String purchaseNumber;
-  final PurchaseStatus status;
-  final int totalCostPesewas;
-  final DateTime? receivedAt;
-  final String? userId;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final List<PurchaseItem> items;
-  final SyncStatus syncStatus;
-
   factory Purchase.fromJson(Map<String, dynamic> json) => Purchase(
         id: json['id'] as String,
         operationId: json['operationId'] as String,
@@ -64,6 +49,21 @@ class Purchase {
             .toList(),
         syncStatus: SyncStatus.fromDb((json['syncStatus'] as String?) ?? 'PENDING'),
       );
+
+  final String id;
+  final String operationId;
+  final String? organizationId;
+  final String? branchId;
+  final String? supplierId;
+  final String purchaseNumber;
+  final PurchaseStatus status;
+  final int totalCostPesewas;
+  final DateTime? receivedAt;
+  final String? userId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final List<PurchaseItem> items;
+  final SyncStatus syncStatus;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -99,16 +99,6 @@ class PurchaseItem {
     this.sellingPricePesewas,
   });
 
-  final String id;
-  final String purchaseId;
-  final String productId;
-  final int quantity;
-  final int costPricePesewas;
-  final String? batchNumber;
-  final DateTime? expiryDate;
-  final DateTime? manufactureDate;
-  final int? sellingPricePesewas;
-
   factory PurchaseItem.fromJson(Map<String, dynamic> json) => PurchaseItem(
         id: json['id'] as String,
         purchaseId: json['purchaseId'] as String,
@@ -120,6 +110,16 @@ class PurchaseItem {
         manufactureDate: _parseDate(json['manufactureDate']),
         sellingPricePesewas: json['sellingPricePesewas'] as int?,
       );
+
+  final String id;
+  final String purchaseId;
+  final String productId;
+  final int quantity;
+  final int costPricePesewas;
+  final String? batchNumber;
+  final DateTime? expiryDate;
+  final DateTime? manufactureDate;
+  final int? sellingPricePesewas;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -155,18 +155,6 @@ class StockCountSession {
     this.syncStatus = SyncStatus.pending,
   });
 
-  final String id;
-  final String operationId;
-  final String? organizationId;
-  final String? branchId;
-  final CountStatus status;
-  final String? notes;
-  final String? userId;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final List<StockCountEntry> entries;
-  final SyncStatus syncStatus;
-
   factory StockCountSession.fromJson(Map<String, dynamic> json) => StockCountSession(
         id: json['id'] as String,
         operationId: json['operationId'] as String,
@@ -182,6 +170,18 @@ class StockCountSession {
             .toList(),
         syncStatus: SyncStatus.fromDb((json['syncStatus'] as String?) ?? 'PENDING'),
       );
+
+  final String id;
+  final String operationId;
+  final String? organizationId;
+  final String? branchId;
+  final CountStatus status;
+  final String? notes;
+  final String? userId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final List<StockCountEntry> entries;
+  final SyncStatus syncStatus;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -224,16 +224,6 @@ class StockCountEntry {
     this.reason,
   });
 
-  final String id;
-  final String sessionId;
-  final String productId;
-  final String? batchId;
-  final int systemQty;
-  final int physicalQty;
-  final String? reason;
-
-  int get difference => physicalQty - systemQty;
-
   factory StockCountEntry.fromJson(Map<String, dynamic> json) => StockCountEntry(
         id: json['id'] as String,
         sessionId: json['sessionId'] as String,
@@ -243,6 +233,16 @@ class StockCountEntry {
         physicalQty: (json['physicalQty'] as int?) ?? 0,
         reason: json['reason'] as String?,
       );
+
+  final String id;
+  final String sessionId;
+  final String productId;
+  final String? batchId;
+  final int systemQty;
+  final int physicalQty;
+  final String? reason;
+
+  int get difference => physicalQty - systemQty;
 
   Map<String, dynamic> toJson() => {
         'id': id,

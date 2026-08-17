@@ -22,21 +22,6 @@ class Sale {
     this.syncStatus = SyncStatus.pending,
   });
 
-  final String id;
-  final String operationId;
-  final String invoiceNumber;
-  final String? userId;
-  final String? sellerName;
-  final String? deviceId;
-  final String? branchId;
-  final String? organizationId;
-  final DateTime? saleDate;
-  final DateTime? saleTime;
-  final DateTime? createdAt;
-  final int totalAmountPesewas;
-  final List<SaleItem> items;
-  final SyncStatus syncStatus;
-
   factory Sale.fromJson(Map<String, dynamic> json) => Sale(
         id: json['id'] as String,
         operationId: json['operationId'] as String,
@@ -55,6 +40,21 @@ class Sale {
             .toList(),
         syncStatus: SyncStatus.fromDb((json['syncStatus'] as String?) ?? 'PENDING'),
       );
+
+  final String id;
+  final String operationId;
+  final String invoiceNumber;
+  final String? userId;
+  final String? sellerName;
+  final String? deviceId;
+  final String? branchId;
+  final String? organizationId;
+  final DateTime? saleDate;
+  final DateTime? saleTime;
+  final DateTime? createdAt;
+  final int totalAmountPesewas;
+  final List<SaleItem> items;
+  final SyncStatus syncStatus;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -97,15 +97,6 @@ class SaleItem {
     required this.amountPesewas,
   });
 
-  final String id;
-  final String saleId;
-  final String productId;
-  final String? batchId;
-  final String medicineName;
-  final int quantity;
-  final int unitPricePesewas;
-  final int amountPesewas;
-
   factory SaleItem.fromJson(Map<String, dynamic> json) => SaleItem(
         id: json['id'] as String,
         saleId: json['saleId'] as String,
@@ -116,6 +107,15 @@ class SaleItem {
         unitPricePesewas: json['unitPricePesewas'] as int,
         amountPesewas: json['amountPesewas'] as int,
       );
+
+  final String id;
+  final String saleId;
+  final String productId;
+  final String? batchId;
+  final String medicineName;
+  final int quantity;
+  final int unitPricePesewas;
+  final int amountPesewas;
 
   Map<String, dynamic> toJson() => {
         'id': id,

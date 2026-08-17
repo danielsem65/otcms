@@ -4,9 +4,7 @@ import '../core/ids.dart';
 import '../core/money.dart';
 import '../core/result.dart';
 import '../data/local/local_store.dart';
-import '../models/batch.dart';
 import '../models/product.dart';
-import '../models/sync.dart';
 import 'audit_service.dart';
 
 /// Result of importing the pharmacy's legacy product list.

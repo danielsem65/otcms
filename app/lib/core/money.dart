@@ -5,9 +5,6 @@
 class Money implements Comparable<Money> {
   const Money(this.pesewas) : assert(pesewas >= 0);
 
-  /// Minor units (1/100 of the main unit).
-  final int pesewas;
-
   /// Parse from a decimal string or number, e.g. `"33.8"` or `"14.54"`.
   /// Rounds to the nearest pesewa; never throws for valid numbers.
   factory Money.fromDouble(num value) => Money((value * 100).round());
@@ -16,6 +13,9 @@ class Money implements Comparable<Money> {
     final cleaned = value.trim().replaceAll(RegExp(r'[^\d.\-]'), '');
     return Money.fromDouble(double.parse(cleaned));
   }
+
+  /// Minor units (1/100 of the main unit).
+  final int pesewas;
 
   /// Safe parse: returns null instead of throwing.
   static Money? tryParse(String? value) {
