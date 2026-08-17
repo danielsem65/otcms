@@ -7,7 +7,7 @@ class SalesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _PlaceholderScreen(
+    return const _PlaceholderScreen(
       icon: Icons.point_of_sale,
       title: 'Sales terminal (Phase 3)',
       message:

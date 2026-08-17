@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Purchases. Implemented in Phase 6.
 class PurchasesScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class PurchasesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.shopping_cart,
       message: 'Purchase orders, goods receiving and supplier records. Lands in Phase 6.',
     );

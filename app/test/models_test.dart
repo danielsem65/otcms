@@ -6,7 +6,7 @@ import 'package:otcms/models/sale.dart';
 void main() {
   group('Product JSON round trip', () {
     test('minimal legacy-style product stays valid', () {
-      final product = const Product(
+      const product = Product(
         id: 'prod_001',
         name: '3FER SYRUP',
         responsible: 'Administrator',
@@ -57,7 +57,7 @@ void main() {
         expiryDate: DateTime(2026, 8, 10),
         quantity: 40,
       );
-      final none = const Batch(id: 'batch_3', productId: 'prod_1', quantity: 5);
+      const none = Batch(id: 'batch_3', productId: 'prod_1', quantity: 5);
 
       expect(soon.isExpiredOn(today), isFalse);
       expect(expired.isExpiredOn(today), isTrue);

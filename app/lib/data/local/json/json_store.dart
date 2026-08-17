@@ -141,7 +141,7 @@ class JsonLocalStore implements LocalStore {
     // Seed the default pharmacy profile on first run.
     if (_pharmacy == null) {
       final profile = PharmacyProfile(
-        id: newId('pharm'),
+        id: Ids.newId('pharm'),
         name: _settings.pharmacyName,
         address: _settings.address,
         phone: _settings.phone,
@@ -510,9 +510,7 @@ class JsonLocalStore implements LocalStore {
 
   @override
   Future<SyncState> getSyncState() async {
-    if (_syncState == null) {
-      _syncState = SyncState(deviceId: deviceId, updatedAt: DateTime.now().toUtc());
-    }
+    _syncState ??= SyncState(deviceId: deviceId, updatedAt: DateTime.now().toUtc());
     return _syncState!;
   }
 
@@ -538,7 +536,7 @@ class JsonLocalStore implements LocalStore {
 
   @override
   Future<List<AuditLog>> getAuditLogs({int? limit}) async {
-    final all = await _audit.getAll();
+    var all = await _audit.getAll();
     all.sort((a, b) => (b.createdAt ?? DateTime(1970)).compareTo(a.createdAt ?? DateTime(1970)));
     if (limit != null && all.length > limit) all = all.sublist(0, limit);
     return all;

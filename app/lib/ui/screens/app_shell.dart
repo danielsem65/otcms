@@ -96,8 +96,6 @@ class _AppShellState extends ConsumerState<AppShell> {
       );
     }
 
-    final pharmacy = ref.watch(pharmacyProvider).valueOrNull;
-
     return Scaffold(
       body: Row(
         children: [

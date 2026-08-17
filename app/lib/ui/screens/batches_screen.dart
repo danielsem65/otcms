@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Batches. Implemented in Phase 2/6.
 class BatchesScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class BatchesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.layers,
       message: 'Batch management (expiry lots) lands in Phase 2/6.',
     );

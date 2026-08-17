@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Inventory. Implemented in Phase 2.
 class InventoryScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class InventoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.inventory_2,
       message: 'Batches, stock levels, FEFO allocation, adjustments and movement history.',
     );

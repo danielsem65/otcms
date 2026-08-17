@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Suppliers. Implemented in Phase 6.
 class SuppliersScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class SuppliersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.local_shipping,
       message: 'Supplier directory and purchase history. Lands in Phase 6.',
     );

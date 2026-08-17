@@ -4,6 +4,7 @@ import '../core/ids.dart';
 import '../core/money.dart';
 import '../core/result.dart';
 import '../data/local/local_store.dart';
+import '../models/audit.dart';
 import '../models/product.dart';
 import 'audit_service.dart';
 
@@ -29,7 +30,7 @@ class ProductImportSummary {
 /// integer pesewas (safe Money). Products already present (same name)
 /// are updated rather than duplicated. No information is invented.
 class ProductImportService {
-  ProductImportService({required LocalStore store, required AuditService audit});
+  ProductImportService({required this.store, required this.audit});
 
   final LocalStore store;
   final AuditService audit;

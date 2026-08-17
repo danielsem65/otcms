@@ -10,10 +10,10 @@ class AppConfig {
   AppConfig._();
 
   static const String supabaseUrl =
-      String.fromEnvironment('SUPABASE_URL', defaultValue: local.secrets.supabaseUrl);
+      String.fromEnvironment('SUPABASE_URL', defaultValue: local.supabaseUrl);
 
   static const String supabaseAnonKey =
-      String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: local.secrets.supabaseAnonKey);
+      String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: local.supabaseAnonKey);
   /// True when cloud credentials are configured; otherwise the app runs
   /// in fully local mode (no auth required, no sync).
   static bool get hasSupabase => supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;

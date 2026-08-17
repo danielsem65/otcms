@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/money.dart';
+import '../../services/inventory_service.dart';
 import '../../state/dashboard_providers.dart';
 import '../../state/providers.dart';
 import '../theme.dart';

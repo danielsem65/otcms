@@ -5,6 +5,8 @@ import 'data/remote/supabase_bootstrap.dart';
 import 'state/providers.dart';
 import 'ui/app.dart';
 
+export 'ui/app.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (SupabaseBootstrap.isConfigured) {

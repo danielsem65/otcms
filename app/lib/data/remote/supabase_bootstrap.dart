@@ -13,7 +13,7 @@ class SupabaseBootstrap {
     if (_initialized) return Supabase.instance.client;
     await Supabase.initialize(
       url: _url,
-      anonKey: _anonKey,
+      publishableKey: _anonKey,
     );
     _initialized = true;
     return Supabase.instance.client;

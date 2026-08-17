@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Stock Count. Implemented in Phase 6.
 class StockCountScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class StockCountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.fact_check,
       message: 'Physical stock counting with difference reasons. Lands in Phase 6.',
     );

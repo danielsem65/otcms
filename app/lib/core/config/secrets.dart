@@ -6,14 +6,6 @@
 /// The ANON key is public by design; never put the service-role key here.
 library;
 
-const secrets = _Secrets(
-  supabaseUrl: '',
-  supabaseAnonKey: '',
-);
+const String supabaseUrl = '';
 
-class _Secrets {
-  const _Secrets({required this.supabaseUrl, required this.supabaseAnonKey});
-
-  final String supabaseUrl;
-  final String supabaseAnonKey;
-}
+const String supabaseAnonKey = '';

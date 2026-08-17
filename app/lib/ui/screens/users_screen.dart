@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Users & roles. Implemented in Phase 8.
 class UsersScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class UsersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.people,
       message: 'User management with role-based permissions. Lands in Phase 8.',
     );

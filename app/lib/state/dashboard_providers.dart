@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/batch.dart';
 import '../models/notification.dart';
-import '../models/sale.dart';
 import '../services/daily_sales_service.dart';
 import '../services/inventory_service.dart';
 import 'providers.dart';

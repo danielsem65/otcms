@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Reports. Implemented in Phase 7.
 class ReportsScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class ReportsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.bar_chart,
       message: 'Sales, inventory, expiry and supplier reports. Lands in Phase 7.',
     );

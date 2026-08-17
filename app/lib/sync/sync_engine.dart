@@ -6,9 +6,11 @@ import '../data/local/local_store.dart';
 import '../data/remote/supabase_repo.dart';
 import '../models/audit.dart';
 import '../models/batch.dart';
+import '../models/notification.dart';
 import '../models/product.dart';
 import '../models/purchase.dart';
 import '../models/sale.dart';
+import '../models/supplier.dart';
 import '../models/sync.dart';
 import 'connectivity_service.dart';
 
@@ -29,9 +31,9 @@ import 'connectivity_service.dart';
 /// operation can never create duplicate data, even over flaky networks.
 class SyncEngine {
   SyncEngine({
-    required LocalStore store,
-    required SupabaseRepo repo,
-    required ConnectivityService connectivity,
+    required this.store,
+    required this.repo,
+    required this.connectivity,
     this.logAudit,
   });
 
@@ -51,7 +53,6 @@ class SyncEngine {
 
   bool _running = false;
   Timer? _retryTimer;
-  final _draining = false;
 
   /// Enqueues an operation for an entity already written to the local
   /// store. [entityType] values come from [EntityTypes].
@@ -61,7 +62,6 @@ class SyncEngine {
     String operationType = 'CREATE',
     Map<String, dynamic> payload = const {},
   }) async {
-    final state = await store.getSyncState();
     final op = SyncOperation(
       operationId: Ids.operationId(),
       deviceId: store.deviceId,
@@ -80,7 +80,7 @@ class SyncEngine {
   void _kick() {
     if (connectivity.status.isOnline) {
       _retryTimer?.cancel();
-      _retryTimer = Timer(Duration(seconds: 1), () => runOnce());
+      _retryTimer = Timer(const Duration(seconds: 1), () => runOnce());
     }
   }
 
@@ -112,7 +112,7 @@ class SyncEngine {
       ));
       final pushed = await _pushOutbox();
       final pulled = await _pullChanges();
-      _emit(SyncStateEvent(SyncPhase.synced, 0));
+      _emit(const SyncStateEvent(SyncPhase.synced, 0));
       await logAudit?.call(AuditLog(
         id: Ids.auditId(),
         action: AuditLog.syncCompleted,

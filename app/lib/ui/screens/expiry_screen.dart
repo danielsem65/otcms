@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Expiry management. Implemented in Phase 2.
 class ExpiryScreen extends StatelessWidget {
@@ -6,7 +6,7 @@ class ExpiryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Placeholder(
+    return const _Placeholder(
       icon: Icons.event_busy,
       message: 'Expired, expiring soon and at-risk batches with alerts. Lands in Phase 2.',
     );
