@@ -1,0 +1,51 @@
+name: otcms
+description: "OTCMS - Offline-first pharmacy management system (Windows + Android)."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # Cloud backend (auth + data)
+  supabase_flutter: ^2.6.0
+
+  # Local persistence
+  path: ^1.9.0
+  path_provider: ^2.1.3
+  sqflite: ^2.3.3
+
+  # Connectivity + sync
+  connectivity_plus: ^6.0.3
+
+  # Utilities
+  uuid: ^4.4.0
+  intl: ^0.19.0
+  timezone: ^0.9.4
+
+  # Notifications (Android local notifications; desktop in-app)
+  flutter_local_notifications: ^17.2.2
+
+  # Barcode scanning (Android camera)
+  mobile_scanner: ^5.2.3
+
+  # Files + sharing
+  file_picker: ^8.0.6
+  share_plus: ^9.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  sqflite_common_ffi: ^2.3.3
+
+flutter:
+  uses-material-design: true

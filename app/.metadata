@@ -1,0 +1,23 @@
+# This file tracks properties of this Flutter project.
+# Used by Flutter tooling to assess project capabilities.
+version:
+  revision: "3.24.5"
+  channel: "stable"
+
+project_type: app
+
+migration:
+  platforms:
+    - platform: root
+      create_revision: 3.24.5
+      base_revision: 3.24.5
+    - platform: android
+      create_revision: 3.24.5
+      base_revision: 3.24.5
+    - platform: windows
+      create_revision: 3.24.5
+      base_revision: 3.24.5
+
+  unmanaged_files:
+    - 'lib/main.dart'
+    - 'ios/Runner.xcodeproj/project.pbxproj'

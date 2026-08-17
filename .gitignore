@@ -1,0 +1,47 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+*.g.cs
+*.g.dart
+*.freezed.dart
+
+# Android
+app/**/build/
+app/.gradle/
+app/local.properties
+app/**/*.jks
+app/**/*.keystore
+app/key.properties
+
+# Windows
+app/windows/flutter/ephemeral/
+app/windows/CMakeSettings.json
+
+# Local runtime data (never commit pharmacy data or local DBs)
+data/
+*.db
+*.sqlite
+
+# Secrets / env
+app/.env
+app/lib/core/config/secrets.dart
+*.env
+# The placeholder above has no real credentials; it MUST be committed so
+# the app compiles. Real values are injected via --dart-define in CI.
+!app/lib/core/config/secrets.dart
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Tests / misc
+coverage/
+*.log
+
+# Pharmacy source data (keep out of the repo; import via file picker)
+Products.json
