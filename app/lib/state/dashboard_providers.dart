@@ -107,11 +107,11 @@ final dashboardProvider = FutureProvider<DashboardModel>((ref) async {
       expiryCounts.update(bucket, (v) => v + 1, ifAbsent: () => 1);
     }
   }
-  final expiringSoon = expiryCounts[ExpiryBucket.sevenDays]! +
-      expiryCounts[ExpiryBucket.thirtyDays]! +
-      expiryCounts[ExpiryBucket.sixtyDays]! +
-      expiryCounts[ExpiryBucket.ninetyDays]! +
-      expiryCounts[ExpiryBucket.oneEightyDays]!;
+  final expiringSoon = (expiryCounts[ExpiryBucket.sevenDays] ?? 0) +
+      (expiryCounts[ExpiryBucket.thirtyDays] ?? 0) +
+      (expiryCounts[ExpiryBucket.sixtyDays] ?? 0) +
+      (expiryCounts[ExpiryBucket.ninetyDays] ?? 0) +
+      (expiryCounts[ExpiryBucket.oneEightyDays] ?? 0);
 
   // Top selling today.
   final nameByProduct = {for (final p in products) p.id: p.name};

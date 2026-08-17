@@ -20,11 +20,11 @@ class DashboardScreen extends ConsumerWidget {
     final dashboard = ref.watch(dashboardProvider).valueOrNull ?? DashboardModel.empty;
 
     final symbol = settings?.currencySymbol ?? '₵';
-    final expiredCount30 = dashboard.expiryAlertCounts[ExpiryBucket.sevenDays]! +
-        dashboard.expiryAlertCounts[ExpiryBucket.thirtyDays]!;
-    final expiredCount90 = dashboard.expiryAlertCounts[ExpiryBucket.sixtyDays]! +
-        dashboard.expiryAlertCounts[ExpiryBucket.ninetyDays]! +
-        dashboard.expiryAlertCounts[ExpiryBucket.oneEightyDays]!;
+    final expiredCount30 = (dashboard.expiryAlertCounts[ExpiryBucket.sevenDays] ?? 0) +
+        (dashboard.expiryAlertCounts[ExpiryBucket.thirtyDays] ?? 0);
+    final expiredCount90 = (dashboard.expiryAlertCounts[ExpiryBucket.sixtyDays] ?? 0) +
+        (dashboard.expiryAlertCounts[ExpiryBucket.ninetyDays] ?? 0) +
+        (dashboard.expiryAlertCounts[ExpiryBucket.oneEightyDays] ?? 0);
 
     return Scaffold(
       appBar: AppBar(
@@ -180,9 +180,9 @@ class DashboardScreen extends ConsumerWidget {
                       icon: Icons.event_busy,
                       child: Column(
                         children: [
-                          _alertRow(context, '${dashboard.expiredCount}', OtcmsTheme.danger, 'Expired'),
-                          _alertRow(context, '$expiredCount30', OtcmsTheme.warning, 'Expiring within 30 days'),
-                          _alertRow(context, '$expiredCount90', OtcmsTheme.caution, 'Expiring within 90 days'),
+                          _alertRow(context, dashboard.expiredCount, OtcmsTheme.danger, 'Expired'),
+                          _alertRow(context, expiredCount30, OtcmsTheme.warning, 'Expiring within 30 days'),
+                          _alertRow(context, expiredCount90, OtcmsTheme.caution, 'Expiring within 90 days'),
                         ],
                       ),
                     ),
@@ -218,9 +218,9 @@ class DashboardScreen extends ConsumerWidget {
                 icon: Icons.event_busy,
                 child: Column(
                   children: [
-                    _alertRow(context, '${dashboard.expiredCount}', OtcmsTheme.danger, 'Expired'),
-                    _alertRow(context, '$expiredCount30', OtcmsTheme.warning, 'Expiring within 30 days'),
-                    _alertRow(context, '$expiredCount90', OtcmsTheme.caution, 'Expiring within 90 days'),
+                    _alertRow(context, dashboard.expiredCount, OtcmsTheme.danger, 'Expired'),
+                    _alertRow(context, expiredCount30, OtcmsTheme.warning, 'Expiring within 30 days'),
+                    _alertRow(context, expiredCount90, OtcmsTheme.caution, 'Expiring within 90 days'),
                   ],
                 ),
               ),

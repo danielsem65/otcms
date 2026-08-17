@@ -23,6 +23,7 @@ class ConnectivityService {
 
   final _controller = StreamController<ConnectionStatus>.broadcast();
   ConnectionStatus _status = ConnectionStatus.unknown;
+  StreamSubscription<List<ConnectivityResult>>? _subscription;
 
   ConnectionStatus get status => _status;
 
@@ -30,7 +31,7 @@ class ConnectivityService {
 
   Future<void> start() async {
     try {
-      _connectivity.onConnectivityChanged.listen(_onChanged);
+      _subscription = _connectivity.onConnectivityChanged.listen(_onChanged);
       _onChanged(await _connectivity.checkConnectivity());
     } catch (_) {
       // No connectivity plugin available (tests, unsupported platform):
@@ -49,6 +50,7 @@ class ConnectivityService {
   }
 
   void dispose() {
+    _subscription?.cancel();
     _controller.close();
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../state/providers.dart';
 import '../../sync/sync_engine.dart';
 import '../theme.dart';
+import 'batches_screen.dart';
 import 'dashboard_screen.dart';
 import 'expiry_screen.dart';
 import 'inventory_screen.dart';
@@ -60,14 +61,15 @@ class _AppShellState extends ConsumerState<AppShell> {
         1 => const SalesScreen(),
         2 => const ProductsScreen(),
         3 => const InventoryScreen(),
-        4 => const ExpiryScreen(),
-        5 => const PurchasesScreen(),
-        6 => const SuppliersScreen(),
-        7 => const StockCountScreen(),
-        8 => const ReportsScreen(),
-        9 => const NotificationsScreen(),
-        10 => const UsersScreen(),
-        11 => const SettingsScreen(),
+        4 => const BatchesScreen(),
+        5 => const ExpiryScreen(),
+        6 => const PurchasesScreen(),
+        7 => const SuppliersScreen(),
+        8 => const StockCountScreen(),
+        9 => const ReportsScreen(),
+        10 => const NotificationsScreen(),
+        11 => const UsersScreen(),
+        12 => const SettingsScreen(),
         _ => const DashboardScreen(),
       };
 
@@ -224,35 +226,34 @@ class _MoreScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = <(IconData, String)>[
-      (Icons.layers_outlined, 'Batches'),
-      (Icons.event_busy_outlined, 'Expiry'),
-      (Icons.shopping_cart_outlined, 'Purchases'),
-      (Icons.local_shipping_outlined, 'Suppliers'),
-      (Icons.fact_check_outlined, 'Stock Count'),
-      (Icons.bar_chart_outlined, 'Reports'),
-      (Icons.notifications_outlined, 'Notifications'),
-      (Icons.people_outline, 'Users'),
-      (Icons.settings_outlined, 'Settings'),
+    final items = <(IconData, String, Widget)>[
+      (Icons.layers_outlined, 'Batches', const BatchesScreen()),
+      (Icons.event_busy_outlined, 'Expiry', const ExpiryScreen()),
+      (Icons.shopping_cart_outlined, 'Purchases', const PurchasesScreen()),
+      (Icons.local_shipping_outlined, 'Suppliers', const SuppliersScreen()),
+      (Icons.fact_check_outlined, 'Stock Count', const StockCountScreen()),
+      (Icons.bar_chart_outlined, 'Reports', const ReportsScreen()),
+      (Icons.notifications_outlined, 'Notifications', const NotificationsScreen()),
+      (Icons.people_outline, 'Users', const UsersScreen()),
+      (Icons.settings_outlined, 'Settings', const SettingsScreen()),
     ];
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        for (final (icon, label) in items)
+        for (final (icon, label, screen) in items)
           Card(
             child: ListTile(
               leading: Icon(icon),
               title: Text(label),
-              onTap: () => _openDesktopPage(label),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => screen,
+                ));
+              },
             ),
           ),
       ],
     );
-  }
-
-  void _openDesktopPage(String label) {
-    // In the mobile shell we keep pages inline; navigation details are
-    // finalized in the mobile UI phase.
   }
 }
 

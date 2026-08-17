@@ -52,7 +52,6 @@ class SyncEngine {
 
   bool _running = false;
   Timer? _retryTimer;
-  final _lock = <Future<void> Function()>[];
   bool _draining = false;
 
   /// Enqueues an operation for an entity already written to the local

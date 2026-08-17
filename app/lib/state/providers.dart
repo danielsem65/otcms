@@ -49,12 +49,17 @@ final authServiceProvider = Provider<AuthService>((ref) {
 });
 
 final syncEngineProvider = Provider<SyncEngine>((ref) {
+  final connectivity = ref.watch(connectivityProvider);
   final engine = SyncEngine(
     store: ref.watch(localStoreProvider),
     repo: ref.watch(supabaseRepoProvider),
-    connectivity: ref.watch(connectivityProvider),
+    connectivity: connectivity,
   );
-  ref.onDispose(engine.dispose);
+  final sub = connectivity.stream.listen(engine.onConnectivityChanged);
+  ref.onDispose(() {
+    sub.cancel();
+    engine.dispose();
+  });
   return engine;
 });
 
