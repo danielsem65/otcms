@@ -5,6 +5,7 @@ import '../../core/money.dart';
 import '../../models/product.dart';
 import '../../state/providers.dart';
 import '../theme.dart';
+import 'product_editor_screen.dart';
 
 /// Product catalog with fast search (works offline).
 class ProductsScreen extends ConsumerStatefulWidget {
@@ -133,36 +134,18 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   }
 
   void _openEditor(BuildContext context, Product? product) {
-    if (product != null) {
-      // Product details/edit lands with the product management phase;
-      // the dialog gives immediate visibility for now.
-      showDialog<void>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(product.name),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (product.responsible != null) Text('Responsible: ${product.responsible}'),
-              Text('Selling price: ₵${Money(product.sellingPricePesewas).formatPlain()}'),
-              if (product.barcode != null) Text('Barcode: ${product.barcode}'),
-              if (product.categoryId != null) Text('Category: ${product.categoryId}'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Close'),
-            ),
-          ],
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Product creation ships with the product management phase.')),
-      );
-    }
+    Navigator.of(context)
+        .push<Product>(MaterialPageRoute(
+          builder: (_) => ProductEditorScreen(product: product),
+        ))
+        .then((saved) {
+      if (saved != null) {
+        ref.invalidate(_productsProvider(_query));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('"${saved.name}" saved.')),
+        );
+      }
+    });
   }
 }
 
