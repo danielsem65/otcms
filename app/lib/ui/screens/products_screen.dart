@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +21,7 @@ class ProductsScreen extends ConsumerStatefulWidget {
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   final _searchController = TextEditingController();
   String _query = '';
+  bool _importing = false;
 
   @override
   void dispose() {
@@ -35,6 +39,17 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
       appBar: AppBar(
         title: const Text('Products'),
         actions: [
+          IconButton(
+            icon: _importing
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.upload_file),
+            tooltip: 'Import products from JSON',
+            onPressed: _importing ? null : _importFromFile,
+          ),
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'New product',
@@ -131,6 +146,36 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
         },
       ),
     );
+  }
+
+  Future<void> _importFromFile() async {
+    if (_importing) return;
+    setState(() => _importing = true);
+    try {
+      final picked = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+      );
+      final path = picked?.files.single.path;
+      if (path == null) return;
+
+      final raw = await File(path).readAsString();
+      final outcome = await ref.read(productImportServiceProvider).importJson(raw);
+      if (!mounted) return;
+      if (outcome.isOk) {
+        final summary = outcome.value;
+        ref.invalidate(_productsProvider(_query));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'Imported ${summary.imported} products (${summary.skippedInvalid} skipped).'),
+        ));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(outcome.error.message)));
+      }
+    } finally {
+      if (mounted) setState(() => _importing = false);
+    }
   }
 
   void _openEditor(BuildContext context, Product? product) {

@@ -9,7 +9,14 @@ import 'package:otcms/ui/screens/products_screen.dart';
 void main() {
   testWidgets('add and edit a product with persistence', (tester) async {
     final store = JsonLocalStore(dataDirectory: 'otcms_test_products');
-    await tester.runAsync(() => store.open());
+    await tester.runAsync(() async {
+      await store.open();
+      // Warm collection caches (real file IO) so the widget tree can
+      // settle under fake async; otherwise loaders spin forever.
+      await store.getProducts();
+      await store.getCategories();
+      await store.getAuditLogs();
+    });
 
     await tester.pumpWidget(ProviderScope(
       overrides: [localStoreProvider.overrideWithValue(store)],
