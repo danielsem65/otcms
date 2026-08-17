@@ -305,9 +305,18 @@ class _MetricCard extends StatelessWidget {
                 children: [
                   Icon(icon, color: color, size: 20),
                   const SizedBox(width: 8),
-                  Text(title,
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 1.1, color: Colors.grey[600])),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.1,
+                          color: Colors.grey[600]),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
