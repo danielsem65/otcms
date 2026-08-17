@@ -47,5 +47,10 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   sqflite_common_ffi: ^2.3.3
 
+dependency_overrides:
+  # app_links 6.3+ reads flutter.compileSdkVersion, which the Flutter 3.24
+  # toolchain does not provide to plugin projects; 6.2.1 hardcodes compileSdk 34.
+  app_links: 6.2.1
+
 flutter:
   uses-material-design: true

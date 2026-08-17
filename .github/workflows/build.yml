@@ -82,7 +82,9 @@ jobs:
   build-windows:
     name: Build Windows Desktop
     needs: analyze-test
-    runs-on: windows-latest
+    # windows-latest now ships Visual Studio 2026, which Flutter 3.24 cannot
+    # target (it falls back to the VS 2019 generator); windows-2022 has VS 2022.
+    runs-on: windows-2022
     defaults:
       run:
         working-directory: app
