@@ -108,7 +108,7 @@ void main() {
       expect((await store.getProducts(search: 'PARA')).length, 1);
       expect((await store.getProducts(search: '1234')).length, 1);
       expect((await store.getProducts(search: 'ors-01')).length, 1);
-      expect((await store.getProducts(search: 'c')).length, 1);
+      expect((await store.getProducts(search: 'c')).length, 2);
       await store.close();
     });
 

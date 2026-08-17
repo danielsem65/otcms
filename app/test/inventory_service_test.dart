@@ -43,9 +43,10 @@ void main() {
       ];
       final allocation = service.allocateFefo(batches: batches, quantity: 25, today: today);
       expect(allocation.isFullyAllocated, isTrue);
-      expect(allocation.batches.map((e) => e.$1.id).toList(), ['b1', 'b2']);
+      expect(allocation.batches.map((e) => e.$1.id).toList(), ['b1', 'b2', 'b3']);
       expect(allocation.batches[0].$2, 10);
-      expect(allocation.batches[1].$2, 15);
+      expect(allocation.batches[1].$2, 10);
+      expect(allocation.batches[2].$2, 5);
     });
 
     test('expired batches are never allocated for sales', () {

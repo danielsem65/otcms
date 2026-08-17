@@ -564,23 +564,24 @@ class JsonLocalStore implements LocalStore {
 
   @override
   Future<void> importAll(Map<String, List<Map<String, dynamic>>> snapshot) async {
-    void putByKey(JsonCollectionFile c, String key) {
+    Future<void> putByKey(JsonCollectionFile c, String key) {
       final items = snapshot[key];
-      if (items != null) c.replaceAll(items.map((e) => c.fromJson(e)).toList());
+      if (items == null) return Future.value();
+      return c.replaceAll(items.map((e) => c.fromJson(e)).toList());
     }
 
-    putByKey(_products, 'products');
-    putByKey(_categories, 'categories');
-    putByKey(_suppliers, 'suppliers');
-    putByKey(_batches, 'batches');
-    putByKey(_sales, 'sales');
-    putByKey(_purchases, 'purchases');
-    putByKey(_movements, 'stock_movements');
-    putByKey(_countSessions, 'stock_counts');
-    putByKey(_notifications, 'notifications');
-    putByKey(_users, 'users');
-    putByKey(_audit, 'audit_log');
-    putByKey(_operations, 'pending_operations');
-    putByKey(_conflicts, 'conflicts');
+    await putByKey(_products, 'products');
+    await putByKey(_categories, 'categories');
+    await putByKey(_suppliers, 'suppliers');
+    await putByKey(_batches, 'batches');
+    await putByKey(_sales, 'sales');
+    await putByKey(_purchases, 'purchases');
+    await putByKey(_movements, 'stock_movements');
+    await putByKey(_countSessions, 'stock_counts');
+    await putByKey(_notifications, 'notifications');
+    await putByKey(_users, 'users');
+    await putByKey(_audit, 'audit_log');
+    await putByKey(_operations, 'pending_operations');
+    await putByKey(_conflicts, 'conflicts');
   }
 }

@@ -31,7 +31,13 @@ class ConnectivityService {
 
   Future<void> start() async {
     try {
-      _subscription = _connectivity.onConnectivityChanged.listen(_onChanged);
+      _subscription = _connectivity.onConnectivityChanged.listen(
+        _onChanged,
+        onError: (Object _) {
+          // No connectivity plugin available (tests, unsupported platform):
+          // fall through to checkConnectivity below, which ends in online.
+        },
+      );
       _onChanged(await _connectivity.checkConnectivity());
     } catch (_) {
       // No connectivity plugin available (tests, unsupported platform):
