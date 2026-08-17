@@ -564,7 +564,7 @@ class JsonLocalStore implements LocalStore {
 
   @override
   Future<void> importAll(Map<String, List<Map<String, dynamic>>> snapshot) async {
-    Future<void> putByKey(JsonCollectionFile c, String key) {
+    Future<void> putByKey<T>(JsonCollectionFile<T> c, String key) {
       final items = snapshot[key];
       if (items == null) return Future.value();
       return c.replaceAll(items.map((e) => c.fromJson(e)).toList());

@@ -7,7 +7,7 @@ import 'package:otcms/state/providers.dart';
 void main() {
   testWidgets('app boots and shows the dashboard in local mode', (tester) async {
     final store = JsonLocalStore(dataDirectory: 'otcms_test_widget');
-    await store.open();
+    await tester.runAsync(() => store.open());
 
     await tester.pumpWidget(ProviderScope(
       overrides: [localStoreProvider.overrideWithValue(store)],
@@ -23,6 +23,6 @@ void main() {
     // No Supabase configured in tests → local mode banner.
     expect(find.text('LOCAL MODE — DATA SAFE'), findsOneWidget);
 
-    await store.close();
+    await tester.runAsync(() => store.close());
   });
 }
