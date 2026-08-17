@@ -101,48 +101,17 @@ class DashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             // Status chips
-            if (MediaQuery.sizeOf(context).width >= 700)
-              Row(
-                children: [
-                  _StatusChip(
-                    label: 'PRODUCTS',
-                    value: '${dashboard.productCount}',
-                    color: OtcmsTheme.safe,
-                  ),
-                  _StatusChip(
-                    label: 'LOW STOCK',
-                    value: '${dashboard.lowStockCount}',
-                    color: OtcmsTheme.warning,
-                  ),
-                  _StatusChip(
-                    label: 'OUT OF STOCK',
-                    value: '${dashboard.outOfStockCount}',
-                    color: OtcmsTheme.danger,
-                  ),
-                  _StatusChip(
-                    label: 'EXPIRING SOON',
-                    value: '${dashboard.expiringSoonCount}',
-                    color: OtcmsTheme.caution,
-                  ),
-                  _StatusChip(
-                    label: 'EXPIRED',
-                    value: '${dashboard.expiredCount}',
-                    color: OtcmsTheme.danger,
-                  ),
-                ],
-              )
-            else
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  _StatusChip(label: 'PRODUCTS', value: '${dashboard.productCount}', color: OtcmsTheme.safe),
-                  _StatusChip(label: 'LOW STOCK', value: '${dashboard.lowStockCount}', color: OtcmsTheme.warning),
-                  _StatusChip(label: 'OUT OF STOCK', value: '${dashboard.outOfStockCount}', color: OtcmsTheme.danger),
-                  _StatusChip(label: 'EXPIRING SOON', value: '${dashboard.expiringSoonCount}', color: OtcmsTheme.caution),
-                  _StatusChip(label: 'EXPIRED', value: '${dashboard.expiredCount}', color: OtcmsTheme.danger),
-                ],
-              ),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _StatusChip(label: 'PRODUCTS', value: '${dashboard.productCount}', color: OtcmsTheme.safe),
+                _StatusChip(label: 'LOW STOCK', value: '${dashboard.lowStockCount}', color: OtcmsTheme.warning),
+                _StatusChip(label: 'OUT OF STOCK', value: '${dashboard.outOfStockCount}', color: OtcmsTheme.danger),
+                _StatusChip(label: 'EXPIRING SOON', value: '${dashboard.expiringSoonCount}', color: OtcmsTheme.caution),
+                _StatusChip(label: 'EXPIRED', value: '${dashboard.expiredCount}', color: OtcmsTheme.danger),
+              ],
+            ),
             const SizedBox(height: 16),
             // Products getting finished + expiry alerts
             if (MediaQuery.sizeOf(context).width >= 700)
