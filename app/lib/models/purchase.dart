@@ -25,6 +25,7 @@ class Purchase {
     this.totalCostPesewas = 0,
     this.receivedAt,
     this.userId,
+    this.notes,
     this.createdAt,
     this.updatedAt,
     this.items = const [],
@@ -42,6 +43,7 @@ class Purchase {
         totalCostPesewas: (json['totalCostPesewas'] as int?) ?? 0,
         receivedAt: _parseUtc(json['receivedAt']),
         userId: json['userId'] as String?,
+        notes: json['notes'] as String?,
         createdAt: _parseUtc(json['createdAt']),
         updatedAt: _parseUtc(json['updatedAt']),
         items: (json['items'] as List<dynamic>? ?? [])
@@ -60,6 +62,7 @@ class Purchase {
   final int totalCostPesewas;
   final DateTime? receivedAt;
   final String? userId;
+  final String? notes;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final List<PurchaseItem> items;
@@ -76,6 +79,7 @@ class Purchase {
         'totalCostPesewas': totalCostPesewas,
         'receivedAt': receivedAt?.toUtc().toIso8601String(),
         'userId': userId,
+        'notes': notes,
         'createdAt': createdAt?.toUtc().toIso8601String(),
         'updatedAt': updatedAt?.toUtc().toIso8601String(),
         'items': items.map((e) => e.toJson()).toList(),

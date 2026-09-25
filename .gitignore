@@ -45,3 +45,5 @@ coverage/
 
 # Pharmacy source data (keep out of the repo; import via file picker)
 Products.json
+# Installer output
+installer/output/

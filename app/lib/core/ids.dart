@@ -58,3 +58,46 @@ class InvoiceNumberGenerator {
     return 'INV-$date-$dev-$seq';
   }
 }
+
+/// Purchase (goods receipt) numbering — same collision-resistant scheme as
+/// invoices.
+///
+/// Format: `PUR-YYYYMMDD-<devicePrefix>-<dailySequence>`
+/// e.g. `PUR-20260818-1A2F-0042`
+class PurchaseNumberGenerator {
+  PurchaseNumberGenerator({required this.deviceId});
+
+  final String deviceId;
+
+  static final RegExp pattern = RegExp(r'^PUR-\d{8}-[A-Z0-9]{4}-(\d{4})$');
+
+  /// Sequentially next purchase number for [day] after [lastSequence].
+  String next(DateTime day, int lastSequence) {
+    final date = '${day.year.toString().padLeft(4, '0')}'
+        '${day.month.toString().padLeft(2, '0')}'
+        '${day.day.toString().padLeft(2, '0')}';
+    final prefix = deviceId.replaceAll(RegExp(r'[^A-Za-z0-9]'), '').toUpperCase();
+    final dev = prefix.length >= 4 ? prefix.substring(0, 4) : prefix.padRight(4, 'X');
+    final seq = ((lastSequence + 1) % 10000).toString().padLeft(4, '0');
+    return 'PUR-$date-$dev-$seq';
+  }
+
+  /// Largest daily sequence already used for [day] among [purchases].
+  static int lastSequenceFor(DateTime day, Iterable<String> purchaseNumbers) {
+    final date = '${day.year.toString().padLeft(4, '0')}'
+        '${day.month.toString().padLeft(2, '0')}'
+        '${day.day.toString().padLeft(2, '0')}';
+    const prefix = 'PUR-';
+    var last = 0;
+    for (final number in purchaseNumbers) {
+      if (!number.startsWith('$prefix$date-')) continue;
+      final match = pattern.matchAsPrefix(number);
+      final seq = match?.group(1);
+      if (seq != null) {
+        final parsed = int.tryParse(seq);
+        if (parsed != null && parsed > last) last = parsed;
+      }
+    }
+    return last;
+  }
+}

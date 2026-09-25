@@ -7,11 +7,13 @@ import '../data/local/local_store.dart';
 import '../data/local/local_store_factory.dart';
 import '../data/remote/supabase_bootstrap.dart';
 import '../data/remote/supabase_repo.dart';
+import '../models/product.dart';
 import '../models/settings.dart';
 import '../models/user.dart';
 import '../services/audit_service.dart';
 import '../services/auth_service.dart';
 import '../services/product_import_service.dart';
+import '../services/purchase_service.dart';
 import '../sync/connectivity_service.dart';
 import '../sync/sync_engine.dart';
 
@@ -67,6 +69,26 @@ final productImportServiceProvider = Provider<ProductImportService>((ref) {
   return ProductImportService(
     store: ref.watch(localStoreProvider),
     audit: ref.watch(auditServiceProvider),
+  );
+});
+
+/// Full product catalog — used by the invoice editor's autocomplete and
+/// lookups (includes inactive products so existing purchases resolve).
+final catalogProvider = FutureProvider<List<Product>>((ref) async {
+  final store = ref.watch(localStoreProvider);
+  return store.getProducts();
+});
+
+final purchaseServiceProvider = Provider<PurchaseService>((ref) {
+  return PurchaseService(
+    store: ref.watch(localStoreProvider),
+    enqueue: (entityType, entityId, payload) =>
+        ref.read(syncEngineProvider).enqueue(
+              entityType: entityType,
+              entityId: entityId,
+              payload: payload,
+            ),
+    logAudit: (entry) => ref.read(auditServiceProvider).log(entry),
   );
 });
 

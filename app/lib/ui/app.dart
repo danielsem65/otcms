@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'screens/app_shell.dart';
+import 'theme.dart';
 
 /// OTCMS root widget.
 class OtcmsApp extends ConsumerWidget {
@@ -12,11 +13,7 @@ class OtcmsApp extends ConsumerWidget {
     return MaterialApp(
       title: 'OTCMS',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00897B)),
-        scaffoldBackgroundColor: const Color(0xFFF7F9F9),
-      ),
+      theme: OtcmsTheme.light(),
       home: const AppShell(),
       locale: const Locale('en'),
     );
