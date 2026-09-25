@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/ids.dart';
 import '../../core/money.dart';
-import '../../data/local/local_store.dart';
 import '../../models/product.dart';
 import '../../models/purchase.dart';
 import '../../models/supplier.dart';
@@ -38,21 +37,20 @@ class _EditorLine {
   _EditorLine({
     required this.id,
     this.productId,
-    required String name,
+    required this.name,
     int quantity = 1,
     int costPricePesewas = 0,
     this.batchNumber,
     this.expiryDate,
-  }) {
-    this.name = name;
-    qtyController = TextEditingController(text: '$quantity');
-    costController = TextEditingController(
-        text: costPricePesewas == 0 ? '' : Money(costPricePesewas).formatPlain());
-  }
+  })  : qtyController = TextEditingController(text: '$quantity'),
+        costController = TextEditingController(
+            text: costPricePesewas == 0
+                ? ''
+                : Money(costPricePesewas).formatPlain());
 
   final String id;
   String? productId;
-  late String name;
+  String name;
   final TextEditingController qtyController;
   final TextEditingController costController;
   String? batchNumber;
@@ -1035,7 +1033,7 @@ class _NewSupplierDialogState extends ConsumerState<_NewSupplierDialog> {
               createdAt: DateTime.now().toUtc(),
             );
             await store.putSupplier(supplier);
-            if (!mounted) return;
+            if (!context.mounted) return;
             Navigator.of(context).pop(supplier);
           },
           child: const Text('Save supplier'),

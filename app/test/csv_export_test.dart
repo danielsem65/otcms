@@ -1,23 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:otcms/data/local/json/json_store.dart';
 import 'package:otcms/models/batch.dart';
 import 'package:otcms/models/product.dart';
 import 'package:otcms/models/purchase.dart';
 import 'package:otcms/services/csv_export_service.dart';
 
 void main() {
-  late Directory tempDir;
-
-  setUp(() {
-    tempDir = Directory.systemTemp.createTempSync('otcms_test_csv_');
-  });
-
-  tearDown(() {
-    if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
-  });
-
   test('products CSV has header and escaped values', () {
     final csv = CsvExport.productsCsv([
       const Product(
@@ -67,7 +54,7 @@ void main() {
   test('movements CSV shows direction', () {
     final csv = CsvExport.movementsCsv(
       [
-        StockMovement(
+        const StockMovement(
           id: 'mov_1',
           operationId: 'op_1',
           productId: 'p1',
@@ -91,12 +78,12 @@ void main() {
   test('commas and quotes inside supplier names survive round trip', () {
     final csv = CsvExport.purchasesCsv(
       [
-        Purchase(
+        const Purchase(
           id: 'pur_1',
           operationId: 'op_1',
           purchaseNumber: 'PUR-1',
           supplierId: 's1',
-          items: const [],
+          items: [],
         ),
       ],
       {'s1': '"Big" Pharma, & Co'},

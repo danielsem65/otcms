@@ -313,7 +313,7 @@ final _productsProvider =
   for (final batch in batches) {
     grouped.putIfAbsent(batch.productId, () => []).add(batch);
   }
-  final inventory = const InventoryService();
+  const inventory = InventoryService();
   final today = DateTime.now();
   return [
     for (final product in products)

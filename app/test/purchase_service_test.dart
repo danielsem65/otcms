@@ -40,7 +40,7 @@ void main() {
       );
 
   test('receive creates purchase, batch and movement; stock is live', () async {
-    final product = Product(
+    const product = Product(
       id: 'prod_1',
       name: 'Paracetamol 500mg',
       sellingPricePesewas: 1200,
