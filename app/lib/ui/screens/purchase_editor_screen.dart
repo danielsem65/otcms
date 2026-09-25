@@ -732,6 +732,7 @@ class _PurchaseEditorScreenState extends ConsumerState<PurchaseEditorScreen> {
   // ------------------------------------------------------------------ io
   void _onProductPicked(Product product) {
     setState(() {
+      _selectedProductId = product.id;
       _productController.text = product.name;
       _productController.selection =
           TextSelection.collapsed(offset: product.name.length);

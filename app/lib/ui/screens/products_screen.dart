@@ -103,42 +103,45 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           if (wide) {
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16),
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text('Product')),
-                  DataColumn(label: Text('Stock')),
-                  DataColumn(label: Text('Selling Price')),
-                  DataColumn(label: Text('Responsible')),
-                  DataColumn(label: Text('Barcode')),
-                  DataColumn(label: Text('Status')),
-                ],
-                rows: [
-                  for (final row in rows)
-                    DataRow(
-                      onSelectChanged: (_) => _openEditor(context, row.product),
-                      cells: [
-                        DataCell(SizedBox(
-                          width: 320,
-                          child: Text(row.product.name,
-                              maxLines: 2, overflow: TextOverflow.ellipsis,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w600)),
-                        )),
-                        DataCell(_stockCell(row)),
-                        DataCell(Text(_price(row.product),
-                            style: const TextStyle(fontWeight: FontWeight.w700))),
-                        DataCell(Text(row.product.responsible ?? '—')),
-                        DataCell(Text(row.product.barcode ?? '—')),
-                        DataCell(
-                          row.product.active
-                              ? const Icon(Icons.check_circle,
-                                  color: OtcmsTheme.safe, size: 18)
-                              : const Icon(Icons.block,
-                                  color: OtcmsTheme.danger, size: 18),
-                        ),
-                      ],
-                    ),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: const [
+                    DataColumn(label: Text('Product')),
+                    DataColumn(label: Text('Stock')),
+                    DataColumn(label: Text('Selling Price')),
+                    DataColumn(label: Text('Responsible')),
+                    DataColumn(label: Text('Barcode')),
+                    DataColumn(label: Text('Status')),
+                  ],
+                  rows: [
+                    for (final row in rows)
+                      DataRow(
+                        onSelectChanged: (_) => _openEditor(context, row.product),
+                        cells: [
+                          DataCell(SizedBox(
+                            width: 320,
+                            child: Text(row.product.name,
+                                maxLines: 2, overflow: TextOverflow.ellipsis,
+                                style:
+                                    const TextStyle(fontWeight: FontWeight.w600)),
+                          )),
+                          DataCell(_stockCell(row)),
+                          DataCell(Text(_price(row.product),
+                              style: const TextStyle(fontWeight: FontWeight.w700))),
+                          DataCell(Text(row.product.responsible ?? '—')),
+                          DataCell(Text(row.product.barcode ?? '—')),
+                          DataCell(
+                            row.product.active
+                                ? const Icon(Icons.check_circle,
+                                    color: OtcmsTheme.safe, size: 18)
+                                : const Icon(Icons.block,
+                                    color: OtcmsTheme.danger, size: 18),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             );
           }

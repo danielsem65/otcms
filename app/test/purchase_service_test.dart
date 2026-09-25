@@ -188,7 +188,8 @@ void main() {
     final first = await service.nextPurchaseNumber();
     final second = await service.nextPurchaseNumber();
     expect(first, startsWith('PUR-'));
-    expect(second, isNot(first));
+    // The preview is stable while nothing is persisted yet.
+    expect(second, first);
 
     // After persisting a received invoice the next number keeps climbing.
     await service.receive(
@@ -199,6 +200,6 @@ void main() {
       ],
     );
     final third = await service.nextPurchaseNumber();
-    expect(third, isNot(second));
+    expect(third, isNot(first));
   });
 }

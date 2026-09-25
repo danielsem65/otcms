@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,13 +10,19 @@ import 'package:otcms/ui/screens/products_screen.dart';
 
 void main() {
   testWidgets('add and edit a product with persistence', (tester) async {
-    final store = JsonLocalStore(dataDirectory: 'otcms_test_products');
+    final tempDir = Directory.systemTemp.createTempSync('otcms_test_products_');
+    final store = JsonLocalStore(dataDirectory: tempDir.path);
+    addTearDown(() async {
+      await store.close();
+      if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
+    });
     await tester.runAsync(() async {
       await store.open();
       // Warm collection caches (real file IO) so the widget tree can
       // settle under fake async; otherwise loaders spin forever.
       await store.getProducts();
       await store.getCategories();
+      await store.getBatches();
       await store.getAuditLogs();
     });
 
@@ -77,7 +85,5 @@ void main() {
     // Let the success snackbars auto-dismiss before the test ends.
     await tester.pump(const Duration(seconds: 5));
     await tester.pumpAndSettle();
-
-    await tester.runAsync(() => store.close());
   });
 }

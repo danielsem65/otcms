@@ -98,6 +98,10 @@ class PurchaseService {
     final existing =
         purchaseId == null ? null : await _store.getPurchaseById(purchaseId);
     final now = DateTime.now().toUtc();
+    final productIds = <String>[];
+    for (final line in lines) {
+      productIds.add(await _resolveProductId(line));
+    }
     final purchase = await _build(
       id: purchaseId ?? Ids.purchaseId(),
       operationId: existing?.operationId ?? Ids.operationId(),
@@ -108,13 +112,15 @@ class PurchaseService {
       status: PurchaseStatus.received,
       receivedAt: now,
       lines: lines,
+      productIds: productIds,
     );
     await _store.putPurchase(purchase);
     await _audit(AuditLog.purchaseCreated, 'purchase', purchase.id,
         after: purchase.toJson());
 
-    for (final line in lines) {
-      final productId = await _resolveProductId(line);
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+      final productId = productIds[i];
       await _refreshProductCost(productId, line.costPricePesewas);
       final batch = await _upsertBatch(
           purchase: purchase, productId: productId, line: line, now: now);
@@ -152,12 +158,15 @@ class PurchaseService {
     required DateTime? createdAt,
     required PurchaseStatus status,
     required List<PurchaseDraftLine> lines,
+    List<String>? productIds,
     DateTime? receivedAt,
   }) async {
     var total = 0;
     final items = <PurchaseItem>[];
-    for (final line in lines) {
-      final productId = await _resolveProductId(line);
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+      final productId =
+          productIds != null ? productIds[i] : await _resolveProductId(line);
       total += line.quantity * line.costPricePesewas;
       items.add(PurchaseItem(
         id: Ids.purchaseItemId(),

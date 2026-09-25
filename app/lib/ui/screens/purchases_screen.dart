@@ -108,8 +108,8 @@ class _PurchasesScreenState extends ConsumerState<PurchasesScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Container(
-                  constraints: const BoxConstraints(minWidth: 160),
+                SizedBox(
+                  width: 190,
                   child: DropdownButtonFormField<_StatusFilter>(
                     key: const ValueKey('statusFilter'),
                     value: _filter,
@@ -161,33 +161,36 @@ class _PurchasesScreenState extends ConsumerState<PurchasesScreen> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  DataTable(
-                    columns: const [
-                      DataColumn(label: Text('Invoice')),
-                      DataColumn(label: Text('Supplier')),
-                      DataColumn(label: Text('Date')),
-                      DataColumn(label: Text('Items')),
-                      DataColumn(label: Text('Total')),
-                      DataColumn(label: Text('Status')),
-                    ],
-                    rows: [
-                      for (final p in purchases)
-                        DataRow(
-                          onSelectChanged: (_) => _openEditor(context, p),
-                          cells: [
-                            DataCell(Text(p.purchaseNumber,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600))),
-                            DataCell(Text(_supplierName(p, supplierNames))),
-                            DataCell(Text(_formatDay(p.createdAt))),
-                            DataCell(Text('${p.items.length}')),
-                            DataCell(Text(Money(p.totalCostPesewas).format(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700))),
-                            DataCell(_statusChip(p.status)),
-                          ],
-                        ),
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      columns: const [
+                        DataColumn(label: Text('Invoice')),
+                        DataColumn(label: Text('Supplier')),
+                        DataColumn(label: Text('Date')),
+                        DataColumn(label: Text('Items')),
+                        DataColumn(label: Text('Total')),
+                        DataColumn(label: Text('Status')),
+                      ],
+                      rows: [
+                        for (final p in purchases)
+                          DataRow(
+                            onSelectChanged: (_) => _openEditor(context, p),
+                            cells: [
+                              DataCell(Text(p.purchaseNumber,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600))),
+                              DataCell(Text(_supplierName(p, supplierNames))),
+                              DataCell(Text(_formatDay(p.createdAt))),
+                              DataCell(Text('${p.items.length}')),
+                              DataCell(Text(Money(p.totalCostPesewas).format(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w700))),
+                              DataCell(_statusChip(p.status)),
+                            ],
+                          ),
+                      ],
+                    ),
                   ),
                 ],
               ),
