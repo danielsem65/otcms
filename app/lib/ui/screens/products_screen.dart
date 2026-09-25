@@ -99,88 +99,48 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                   : 'No products match "$_query".'),
             );
           }
-          final wide = MediaQuery.sizeOf(context).width >= 900;
-          if (wide) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  columns: const [
-                    DataColumn(label: Text('Product')),
-                    DataColumn(label: Text('Stock')),
-                    DataColumn(label: Text('Selling Price')),
-                    DataColumn(label: Text('Responsible')),
-                    DataColumn(label: Text('Barcode')),
-                    DataColumn(label: Text('Status')),
-                  ],
-                  rows: [
-                    for (final row in rows)
-                      DataRow(
-                        onSelectChanged: (_) => _openEditor(context, row.product),
-                        cells: [
-                          DataCell(SizedBox(
-                            width: 320,
-                            child: Text(row.product.name,
-                                maxLines: 2, overflow: TextOverflow.ellipsis,
-                                style:
-                                    const TextStyle(fontWeight: FontWeight.w600)),
-                          )),
-                          DataCell(_stockCell(row)),
-                          DataCell(Text(_price(row.product),
-                              style: const TextStyle(fontWeight: FontWeight.w700))),
-                          DataCell(Text(row.product.responsible ?? '—')),
-                          DataCell(Text(row.product.barcode ?? '—')),
-                          DataCell(
-                            row.product.active
-                                ? const Icon(Icons.check_circle,
-                                    color: OtcmsTheme.safe, size: 18)
-                                : const Icon(Icons.block,
-                                    color: OtcmsTheme.danger, size: 18),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: const [
+                  DataColumn(label: Text('Product')),
+                  DataColumn(label: Text('Stock')),
+                  DataColumn(label: Text('Selling Price')),
+                  DataColumn(label: Text('Responsible')),
+                  DataColumn(label: Text('Barcode')),
+                  DataColumn(label: Text('Status')),
+                ],
+                rows: [
+                  for (final row in rows)
+                    DataRow(
+                      onSelectChanged: (_) => _openEditor(context, row.product),
+                      cells: [
+                        DataCell(SizedBox(
+                          width: 320,
+                          child: Text(row.product.name,
+                              maxLines: 2, overflow: TextOverflow.ellipsis,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
+                        )),
+                        DataCell(_stockCell(row)),
+                        DataCell(Text(_price(row.product),
+                            style: const TextStyle(fontWeight: FontWeight.w700))),
+                        DataCell(Text(row.product.responsible ?? '—')),
+                        DataCell(Text(row.product.barcode ?? '—')),
+                        DataCell(
+                          row.product.active
+                              ? const Icon(Icons.check_circle,
+                                  color: OtcmsTheme.safe, size: 18)
+                              : const Icon(Icons.block,
+                                  color: OtcmsTheme.danger, size: 18),
+                        ),
+                      ],
+                    ),
+                ],
               ),
-            );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(12),
-            itemCount: rows.length,
-            separatorBuilder: (_, i) => const SizedBox(height: 8),
-            itemBuilder: (context, i) {
-              final row = rows[i];
-              return Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: OtcmsTheme.seed.withOpacity(0.12),
-                    child: const Icon(Icons.medication, color: OtcmsTheme.seed),
-                  ),
-                  title: Text(row.product.name,
-                      maxLines: 1, overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                  subtitle: Text(
-                      '${row.product.responsible ?? ''} · ${_stockLabel(row)}',
-                      maxLines: 1, overflow: TextOverflow.ellipsis),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(_price(row.product),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16)),
-                      Text('${row.stock} in stock',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: _stockColor(row.level))),
-                    ],
-                  ),
-                  onTap: () => _openEditor(context, row.product),
-                ),
-              );
-            },
+            ),
           );
         },
       ),
@@ -191,9 +151,6 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
     final symbol = ref.watch(settingsProvider).valueOrNull?.currencySymbol ?? '₵';
     return Money(p.sellingPricePesewas).format(symbol: symbol);
   }
-
-  String _stockLabel(ProductStockRow row) =>
-      '${row.stock} in stock · ${row.level.label}';
 
   Widget _stockCell(ProductStockRow row) {
     return Row(

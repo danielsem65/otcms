@@ -75,28 +75,26 @@ class DashboardScreen extends ConsumerWidget {
                     onTap: () {},
                   ),
                 ),
-                if (MediaQuery.sizeOf(context).width >= 700) ...[
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _MetricCard(
-                      title: 'UNITS SOLD',
-                      value: '${dashboard.todayUnitsSold}',
-                      icon: Icons.inventory,
-                      color: OtcmsTheme.seed,
-                      onTap: () {},
-                    ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _MetricCard(
+                    title: 'UNITS SOLD',
+                    value: '${dashboard.todayUnitsSold}',
+                    icon: Icons.inventory,
+                    color: OtcmsTheme.seed,
+                    onTap: () {},
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _MetricCard(
-                      title: 'INVENTORY VALUE',
-                      value: Money(dashboard.inventoryValuePesewas).format(symbol: symbol),
-                      icon: Icons.warehouse,
-                      color: OtcmsTheme.safe,
-                      onTap: () {},
-                    ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _MetricCard(
+                    title: 'INVENTORY VALUE',
+                    value: Money(dashboard.inventoryValuePesewas).format(symbol: symbol),
+                    icon: Icons.warehouse,
+                    color: OtcmsTheme.safe,
+                    onTap: () {},
                   ),
-                ],
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -114,87 +112,50 @@ class DashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             // Products getting finished + expiry alerts
-            if (MediaQuery.sizeOf(context).width >= 700)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: _Panel(
-                      title: 'PRODUCTS GETTING FINISHED',
-                      icon: Icons.trending_down,
-                      child: dashboard.gettingFinished.isEmpty
-                          ? const _EmptyHint('No products running low.')
-                          : Column(
-                              children: [
-                                for (final (name, stock, critical) in dashboard.gettingFinished)
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: Icon(
-                                      critical ? Icons.error : Icons.warning_amber,
-                                      color: critical ? OtcmsTheme.danger : OtcmsTheme.warning,
-                                    ),
-                                    title: Text(name,
-                                        maxLines: 1, overflow: TextOverflow.ellipsis),
-                                    trailing: Text('Stock: $stock',
-                                        style: const TextStyle(fontWeight: FontWeight.w600)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _Panel(
+                    title: 'PRODUCTS GETTING FINISHED',
+                    icon: Icons.trending_down,
+                    child: dashboard.gettingFinished.isEmpty
+                        ? const _EmptyHint('No products running low.')
+                        : Column(
+                            children: [
+                              for (final (name, stock, critical) in dashboard.gettingFinished)
+                                ListTile(
+                                  dense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Icon(
+                                    critical ? Icons.error : Icons.warning_amber,
+                                    color: critical ? OtcmsTheme.danger : OtcmsTheme.warning,
                                   ),
-                              ],
-                            ),
-                    ),
+                                  title: Text(name,
+                                      maxLines: 1, overflow: TextOverflow.ellipsis),
+                                  trailing: Text('Stock: $stock',
+                                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                                ),
+                            ],
+                          ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _Panel(
-                      title: 'EXPIRY ALERTS',
-                      icon: Icons.event_busy,
-                      child: Column(
-                        children: [
-                          _alertRow(context, dashboard.expiredCount, OtcmsTheme.danger, 'Expired'),
-                          _alertRow(context, expiredCount30, OtcmsTheme.warning, 'Expiring within 30 days'),
-                          _alertRow(context, expiredCount90, OtcmsTheme.caution, 'Expiring within 90 days'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            else ...[
-              _Panel(
-                title: 'PRODUCTS GETTING FINISHED',
-                icon: Icons.trending_down,
-                child: dashboard.gettingFinished.isEmpty
-                    ? const _EmptyHint('No products running low.')
-                    : Column(
-                        children: [
-                          for (final (name, stock, critical) in dashboard.gettingFinished)
-                            ListTile(
-                              dense: true,
-                              leading: Icon(
-                                critical ? Icons.error : Icons.warning_amber,
-                                color: critical ? OtcmsTheme.danger : OtcmsTheme.warning,
-                              ),
-                              title: Text(name,
-                                  maxLines: 1, overflow: TextOverflow.ellipsis),
-                              trailing: Text('Stock: $stock',
-                                  style: const TextStyle(fontWeight: FontWeight.w600)),
-                            ),
-                        ],
-                      ),
-              ),
-              const SizedBox(height: 12),
-              _Panel(
-                title: 'EXPIRY ALERTS',
-                icon: Icons.event_busy,
-                child: Column(
-                  children: [
-                    _alertRow(context, dashboard.expiredCount, OtcmsTheme.danger, 'Expired'),
-                    _alertRow(context, expiredCount30, OtcmsTheme.warning, 'Expiring within 30 days'),
-                    _alertRow(context, expiredCount90, OtcmsTheme.caution, 'Expiring within 90 days'),
-                  ],
                 ),
-              ),
-            ],
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _Panel(
+                    title: 'EXPIRY ALERTS',
+                    icon: Icons.event_busy,
+                    child: Column(
+                      children: [
+                        _alertRow(context, dashboard.expiredCount, OtcmsTheme.danger, 'Expired'),
+                        _alertRow(context, expiredCount30, OtcmsTheme.warning, 'Expiring within 30 days'),
+                        _alertRow(context, expiredCount90, OtcmsTheme.caution, 'Expiring within 90 days'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             // Top selling
             _Panel(

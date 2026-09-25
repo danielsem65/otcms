@@ -143,102 +143,55 @@ class _PurchasesScreenState extends ConsumerState<PurchasesScreen> {
                   : 'No invoices match your filters.'),
             );
           }
-          final wide = MediaQuery.sizeOf(context).width >= 900;
-          if (wide) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      _StatChip(
-                          label: 'RECEIVED INVOICES', value: '$receivedCount'),
-                      const SizedBox(width: 12),
-                      _StatChip(
-                          label: 'TOTAL SPENT',
-                          value: Money(totalSpend).format()),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: const [
-                        DataColumn(label: Text('Invoice')),
-                        DataColumn(label: Text('Supplier')),
-                        DataColumn(label: Text('Date')),
-                        DataColumn(label: Text('Items')),
-                        DataColumn(label: Text('Total')),
-                        DataColumn(label: Text('Status')),
-                      ],
-                      rows: [
-                        for (final p in purchases)
-                          DataRow(
-                            onSelectChanged: (_) => _openEditor(context, p),
-                            cells: [
-                              DataCell(Text(p.purchaseNumber,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600))),
-                              DataCell(Text(_supplierName(p, supplierNames))),
-                              DataCell(Text(_formatDay(p.createdAt))),
-                              DataCell(Text('${p.items.length}')),
-                              DataCell(Text(Money(p.totalCostPesewas).format(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700))),
-                              DataCell(_statusChip(p.status)),
-                            ],
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(12),
-            itemCount: purchases.length + 2,
-            separatorBuilder: (_, i) => const SizedBox(height: 8),
-            itemBuilder: (context, i) {
-              if (i == 0) {
-                return Row(
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    _StatChip(label: 'RECEIVED', value: '$receivedCount'),
+                    _StatChip(
+                        label: 'RECEIVED INVOICES', value: '$receivedCount'),
                     const SizedBox(width: 12),
                     _StatChip(
                         label: 'TOTAL SPENT',
                         value: Money(totalSpend).format()),
                   ],
-                );
-              }
-              if (i == 1) return const Divider();
-              final p = purchases[i - 2];
-              return Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: OtcmsTheme.seed.withOpacity(0.12),
-                    child: const Icon(Icons.shopping_cart_outlined,
-                        color: OtcmsTheme.seed),
-                  ),
-                  title: Text(p.purchaseNumber,
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                  subtitle: Text(
-                      '${_supplierName(p, supplierNames)} · ${_formatDay(p.createdAt)}'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _statusChip(p.status),
-                      const SizedBox(width: 6),
-                      Text(Money(p.totalCostPesewas).format(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16)),
+                ),
+                const SizedBox(height: 16),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(label: Text('Invoice')),
+                      DataColumn(label: Text('Supplier')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Items')),
+                      DataColumn(label: Text('Total')),
+                      DataColumn(label: Text('Status')),
+                    ],
+                    rows: [
+                      for (final p in purchases)
+                        DataRow(
+                          onSelectChanged: (_) => _openEditor(context, p),
+                          cells: [
+                            DataCell(Text(p.purchaseNumber,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600))),
+                            DataCell(Text(_supplierName(p, supplierNames))),
+                            DataCell(Text(_formatDay(p.createdAt))),
+                            DataCell(Text('${p.items.length}')),
+                            DataCell(Text(Money(p.totalCostPesewas).format(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700))),
+                            DataCell(_statusChip(p.status)),
+                          ],
+                        ),
                     ],
                   ),
-                  onTap: () => _openEditor(context, p),
                 ),
-              );
-            },
+              ],
+            ),
           );
         },
       ),

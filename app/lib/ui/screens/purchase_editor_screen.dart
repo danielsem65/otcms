@@ -19,10 +19,8 @@ class PurchaseEditorResult {
   final bool received;
 }
 
-/// Desktop Add/Edit/View invoice page.
-///
-/// Layout adapts to screen width: narrow devices stack the supplier/notes
-/// panel above the items; wide screens show them side by side.
+/// Desktop Add/Edit/View invoice page: invoice/notes panel on the left,
+/// line-item table on the right.
 class PurchaseEditorScreen extends ConsumerStatefulWidget {
   const PurchaseEditorScreen({super.key, this.purchase});
 
@@ -154,7 +152,6 @@ class _PurchaseEditorScreenState extends ConsumerState<PurchaseEditorScreen> {
       }
     }
 
-    final wide = MediaQuery.sizeOf(context).width >= 900;
     final title = existing == null
         ? 'New Invoice'
         : 'Invoice ${existing!.purchaseNumber}';
@@ -208,7 +205,7 @@ class _PurchaseEditorScreenState extends ConsumerState<PurchaseEditorScreen> {
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1440),
-          child: wide ? _buildWide(catalog) : _buildNarrow(catalog),
+          child: _buildWide(catalog),
         ),
       ),
     );
@@ -244,25 +241,6 @@ class _PurchaseEditorScreenState extends ConsumerState<PurchaseEditorScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  // ---------------------------------------------------------------- mobile
-  Widget _buildNarrow(List<Product> catalog) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildMetaPanel(),
-          const SizedBox(height: 24),
-          _buildItemsHeader(),
-          const SizedBox(height: 12),
-          _buildMobileItems(catalog),
-          const SizedBox(height: 16),
-          _buildTotalsBar(),
-        ],
-      ),
     );
   }
 
@@ -482,88 +460,6 @@ class _PurchaseEditorScreenState extends ConsumerState<PurchaseEditorScreen> {
             child: Text('No items on this invoice.',
                 style: TextStyle(color: Colors.grey)),
           ),
-      ],
-    );
-  }
-
-  Widget _buildMobileItems(List<Product> catalog) {
-    final lines = _lineControllers.values.toList();
-    return Column(
-      children: [
-        for (final line in lines)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(line.name,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600)),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close, size: 18),
-                        onPressed:
-                            _viewOnly ? null : () => _removeLine(line.id),
-                      ),
-                    ],
-                  ),
-                  if (line.batchNumber != null || line.expiryDate != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        '${line.batchNumber ?? 'No batch'} · ${line.expiryDate == null ? 'No expiry' : _formatDay(line.expiryDate!)}',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                      ),
-                    ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          key: ValueKey('lineQty-${line.id}'),
-                          controller: line.qtyController,
-                          enabled: !_viewOnly,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          decoration: const InputDecoration(
-                              labelText: 'Qty', isDense: true),
-                          onChanged: (_) => setState(() {}),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: TextFormField(
-                          key: ValueKey('lineCost-${line.id}'),
-                          controller: line.costController,
-                          enabled: !_viewOnly,
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d*\.?\d{0,2}'))
-                          ],
-                          decoration: const InputDecoration(
-                              labelText: 'Unit cost (₵)', isDense: true),
-                          onChanged: (_) => setState(() {}),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(Money(line.amountPesewas).format(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        const SizedBox(height: 12),
-        if (!_viewOnly) _buildAddRow(catalog),
       ],
     );
   }

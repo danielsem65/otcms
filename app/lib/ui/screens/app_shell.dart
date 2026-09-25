@@ -18,9 +18,8 @@ import 'stock_count_screen.dart';
 import 'suppliers_screen.dart';
 import 'users_screen.dart';
 
-/// Responsive app shell:
-///  * Desktop (>= 1000px): NavigationRail + content pane.
-///  * Mobile: bottom NavigationBar (Home, Sell, Products, Inventory, More).
+/// App shell for desktop / laptop: left NavigationRail with the full menu
+/// and a sync status bar pinned at the bottom.
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key});
 
@@ -30,9 +29,8 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell> {
   int _desktopIndex = 0;
-  int _mobileIndex = 0;
 
-  static const _desktopDestinations = <_Destination>[
+  static const _destinations = <_Destination>[
     _Destination('Dashboard', Icons.space_dashboard_outlined, Icons.space_dashboard),
     _Destination('Sales', Icons.point_of_sale_outlined, Icons.point_of_sale),
     _Destination('Products', Icons.medication_outlined, Icons.medication),
@@ -46,14 +44,6 @@ class _AppShellState extends ConsumerState<AppShell> {
     _Destination('Notifications', Icons.notifications_outlined, Icons.notifications),
     _Destination('Users', Icons.people_outline, Icons.people),
     _Destination('Settings', Icons.settings_outlined, Icons.settings),
-  ];
-
-  static const _mobileDestinations = <_Destination>[
-    _Destination('Home', Icons.space_dashboard_outlined, Icons.space_dashboard),
-    _Destination('Sell', Icons.point_of_sale_outlined, Icons.point_of_sale),
-    _Destination('Products', Icons.medication_outlined, Icons.medication),
-    _Destination('Inventory', Icons.inventory_2_outlined, Icons.inventory_2),
-    _Destination('More', Icons.more_horiz, Icons.more_horiz),
   ];
 
   Widget _buildPage(int index) => switch (index) {
@@ -75,27 +65,6 @@ class _AppShellState extends ConsumerState<AppShell> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    final isDesktop = width >= 1000;
-
-    if (!isDesktop) {
-      return Scaffold(
-        body: _mobilePage(_mobileIndex),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _mobileIndex,
-          onDestinationSelected: (i) => setState(() => _mobileIndex = i),
-          destinations: [
-            for (final d in _mobileDestinations)
-              NavigationDestination(
-                icon: Icon(d.icon),
-                selectedIcon: Icon(d.selectedIcon),
-                label: d.label,
-              ),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       body: Row(
         children: [
@@ -130,7 +99,7 @@ class _AppShellState extends ConsumerState<AppShell> {
               ),
             ),
             destinations: [
-              for (final d in _desktopDestinations)
+              for (final d in _destinations)
                 NavigationRailDestination(
                   icon: Icon(d.icon),
                   selectedIcon: Icon(d.selectedIcon),
@@ -143,22 +112,6 @@ class _AppShellState extends ConsumerState<AppShell> {
         ],
       ),
       bottomNavigationBar: _SyncStatusBar(),
-    );
-  }
-
-  Widget _mobilePage(int index) {
-    final content = switch (index) {
-      0 => const DashboardScreen(),
-      1 => const SalesScreen(),
-      2 => const ProductsScreen(),
-      3 => const InventoryScreen(),
-      _ => const _MoreScreen(),
-    };
-    return Column(
-      children: [
-        _SyncStatusBar(),
-        Expanded(child: content),
-      ],
     );
   }
 }
@@ -215,42 +168,6 @@ class _SyncStatusBar extends ConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _MoreScreen extends ConsumerWidget {
-  const _MoreScreen();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items = <(IconData, String, Widget)>[
-      (Icons.layers_outlined, 'Batches', const BatchesScreen()),
-      (Icons.event_busy_outlined, 'Expiry', const ExpiryScreen()),
-      (Icons.shopping_cart_outlined, 'Purchases', const PurchasesScreen()),
-      (Icons.local_shipping_outlined, 'Suppliers', const SuppliersScreen()),
-      (Icons.fact_check_outlined, 'Stock Count', const StockCountScreen()),
-      (Icons.bar_chart_outlined, 'Reports', const ReportsScreen()),
-      (Icons.notifications_outlined, 'Notifications', const NotificationsScreen()),
-      (Icons.people_outline, 'Users', const UsersScreen()),
-      (Icons.settings_outlined, 'Settings', const SettingsScreen()),
-    ];
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        for (final (icon, label, screen) in items)
-          Card(
-            child: ListTile(
-              leading: Icon(icon),
-              title: Text(label),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => screen,
-                ));
-              },
-            ),
-          ),
-      ],
     );
   }
 }
