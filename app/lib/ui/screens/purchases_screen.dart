@@ -109,7 +109,7 @@ class _PurchasesScreenState extends ConsumerState<PurchasesScreen> {
                 ),
                 const SizedBox(width: 12),
                 SizedBox(
-                  width: 190,
+                  width: 210,
                   child: DropdownButtonFormField<_StatusFilter>(
                     key: const ValueKey('statusFilter'),
                     value: _filter,
