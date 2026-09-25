@@ -15,10 +15,12 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    // Mobile shell shows the dashboard home + bottom navigation.
+    // Desktop shell: dashboard + NavigationRail with the full menu.
     expect(find.text('Agya Appiah OTCMS'), findsOneWidget);
-    expect(find.text('Sell'), findsOneWidget);
-    expect(find.text('More'), findsOneWidget);
+    expect(find.text('Dashboard'), findsOneWidget);
+    expect(find.text('Sales'), findsOneWidget);
+    expect(find.text('Purchases'), findsOneWidget);
+    expect(find.text('Settings'), findsOneWidget);
 
     // No Supabase configured in tests → local mode banner.
     expect(find.text('LOCAL MODE — DATA SAFE'), findsOneWidget);

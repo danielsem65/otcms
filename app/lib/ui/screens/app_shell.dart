@@ -68,44 +68,46 @@ class _AppShellState extends ConsumerState<AppShell> {
     return Scaffold(
       body: Row(
         children: [
-          NavigationRail(
-            selectedIndex: _desktopIndex,
-            onDestinationSelected: (i) => setState(() => _desktopIndex = i),
-            labelType: NavigationRailLabelType.all,
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 12),
-              child: Column(
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: OtcmsTheme.seed,
-                      borderRadius: BorderRadius.circular(12),
+          SingleChildScrollView(
+            child: NavigationRail(
+              selectedIndex: _desktopIndex,
+              onDestinationSelected: (i) => setState(() => _desktopIndex = i),
+              labelType: NavigationRailLabelType.all,
+              leading: Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 12),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: OtcmsTheme.seed,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(Icons.local_pharmacy, color: Colors.white),
                     ),
-                    child: const Icon(Icons.local_pharmacy, color: Colors.white),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'OTCMS',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.2,
-                      color: Theme.of(context).colorScheme.primary,
+                    const SizedBox(height: 6),
+                    Text(
+                      'OTCMS',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.2,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            destinations: [
-              for (final d in _destinations)
-                NavigationRailDestination(
-                  icon: Icon(d.icon),
-                  selectedIcon: Icon(d.selectedIcon),
-                  label: Text(d.label),
+                  ],
                 ),
-            ],
+              ),
+              destinations: [
+                for (final d in _destinations)
+                  NavigationRailDestination(
+                    icon: Icon(d.icon),
+                    selectedIcon: Icon(d.selectedIcon),
+                    label: Text(d.label),
+                  ),
+              ],
+            ),
           ),
           const VerticalDivider(width: 1, thickness: 1),
           Expanded(child: _buildPage(_desktopIndex)),
