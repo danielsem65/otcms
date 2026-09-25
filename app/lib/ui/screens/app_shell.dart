@@ -65,47 +65,62 @@ class _AppShellState extends ConsumerState<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: Row(
         children: [
-          SingleChildScrollView(
-            child: NavigationRail(
-              selectedIndex: _desktopIndex,
-              onDestinationSelected: (i) => setState(() => _desktopIndex = i),
-              labelType: NavigationRailLabelType.all,
-              leading: Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 12),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: OtcmsTheme.seed,
-                        borderRadius: BorderRadius.circular(12),
+          SizedBox(
+            width: 80,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: OtcmsTheme.seed,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.local_pharmacy,
+                            color: Colors.white, size: 20),
                       ),
-                      child: const Icon(Icons.local_pharmacy, color: Colors.white),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'OTCMS',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.2,
-                        color: Theme.of(context).colorScheme.primary,
+                      const SizedBox(height: 4),
+                      Text(
+                        'OTCMS',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.2,
+                          color: scheme.primary,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              destinations: [
-                for (final d in _destinations)
-                  NavigationRailDestination(
-                    icon: Icon(d.icon),
-                    selectedIcon: Icon(d.selectedIcon),
-                    label: Text(d.label),
+                    ],
                   ),
+                ),
+                const Divider(height: 1, thickness: 1),
+                Expanded(
+                  child: Scrollbar(
+                    thumbVisibility: false,
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          for (final (index, d) in _destinations.indexed)
+                            _RailButton(
+                              destination: d,
+                              selected: index == _desktopIndex,
+                              onTap: () =>
+                                  setState(() => _desktopIndex = index),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -179,4 +194,63 @@ class _Destination {
   final String label;
   final IconData icon;
   final IconData selectedIcon;
+}
+
+class _RailButton extends StatelessWidget {
+  const _RailButton({
+    required this.destination,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final _Destination destination;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Tooltip(
+      message: destination.label,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 64,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: selected ? scheme.secondaryContainer : Colors.transparent,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Icon(
+                  selected ? destination.selectedIcon : destination.icon,
+                  size: 20,
+                  color: selected
+                      ? scheme.onSecondaryContainer
+                      : scheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                destination.label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  color: selected ? scheme.primary : scheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
